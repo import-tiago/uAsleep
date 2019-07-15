@@ -1,5 +1,5 @@
 # uAsleep
-[![Donate](https://img.shields.io/badge/Donate-Buy%20Me%20a%20Coffee-yellow.svg)](https://www.buymeacoffee.com/TiagoPaulaSilva)
+![Status](https://img.shields.io/badge/Status-Finished-green.svg) [![Donate](https://img.shields.io/badge/Donate-Buy%20Me%20a%20Coffee-yellow.svg)](https://www.buymeacoffee.com/TiagoPaulaSilva)
 
 uAsleep is a mobile app that allows embedded systems developers to calculate the lifetime of their batteries in projects that use sleep mode (IoT mostly).
 
