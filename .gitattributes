@@ -1,2 +1,2 @@
-/android/*.* linguist-generated=true
-/ios/*.* linguist-generated=true
+android/* linguist-generated=true
+ios/* linguist-generated=true
