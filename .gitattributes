@@ -1,6 +1,2 @@
-special-vendored-path/* linguist-vendored
-*.* linguist-vendored=false
-
 android/*.* linguist-generated=true
 ios/*.* linguist-generated=true
-.idea/*.* linguist-generated=true
