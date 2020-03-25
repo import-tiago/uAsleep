@@ -3,7 +3,7 @@
 
 uAsleep is a mobile app that allows embedded systems developers to calculate the lifetime of their batteries in projects that use sleep mode (IoT mostly).
 
-
+#### Design Pattern: [Business Logic Component (BLoC)](https://pub.dev/packages/bloc)
 
 ### Print Screens
 ![enter image description here](https://github.com/TiagoPaulaSilva/uAsleep/blob/master/lib/Printscreens/AppPrintScreens.jpg)
