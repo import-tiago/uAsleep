@@ -18,10 +18,11 @@ Security vulnerabilities must follow [SECURITY.md](SECURITY.md).
 
 1. Fork the repository and create a short branch from `main`.
 2. Install the Flutter version documented in [README.md](README.md).
-3. Run `flutter pub get`.
-4. Make one focused change and add tests for observable behavior.
-5. Run all relevant quality checks.
-6. Open a pull request using the repository template.
+3. Change to the Flutter project with `cd src`.
+4. Run `flutter pub get`.
+5. Make one focused change and add tests for observable behavior.
+6. Run all relevant quality checks.
+7. Open a pull request using the repository template.
 
 Suggested branch names:
 
@@ -43,6 +44,8 @@ docs/update-architecture
 See [docs/architecture.md](docs/architecture.md) for more detail.
 
 ## Required checks
+
+Run these commands from `src/`:
 
 ```shell
 flutter pub get

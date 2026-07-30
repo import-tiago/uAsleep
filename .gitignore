@@ -28,6 +28,8 @@ Desktop.ini
 **/doc/api/
 /build/
 /coverage/
+/src/build/
+/src/coverage/
 *.symbols
 *.map.json
 
@@ -37,22 +39,22 @@ Desktop.ini
 !.env.example
 
 # Android local and generated files
-/android/.gradle/
-/android/app/debug/
-/android/app/profile/
-/android/app/release/
-/android/key.properties
-/android/local.properties
-/android/**/*.jks
-/android/**/*.keystore
+/src/android/.gradle/
+/src/android/app/debug/
+/src/android/app/profile/
+/src/android/app/release/
+/src/android/key.properties
+/src/android/local.properties
+/src/android/**/*.jks
+/src/android/**/*.keystore
 
 # iOS local and generated files
-/ios/Flutter/Generated.xcconfig
-/ios/Flutter/ephemeral/
-/ios/Flutter/flutter_export_environment.sh
-/ios/Pods/
-/ios/.symlinks/
-/ios/**/xcuserdata/
+/src/ios/Flutter/Generated.xcconfig
+/src/ios/Flutter/ephemeral/
+/src/ios/Flutter/flutter_export_environment.sh
+/src/ios/Pods/
+/src/ios/.symlinks/
+/src/ios/**/xcuserdata/
 
 # Local migration tooling
 migrate_working_dir/

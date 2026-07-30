@@ -5,7 +5,8 @@
 *.jpg binary
 *.jpeg binary
 *.jar binary
+*.apk binary
 
-android/** linguist-vendored
-ios/** linguist-vendored
-lib/l10n/app_localizations*.dart linguist-generated
+src/android/** linguist-vendored
+src/ios/** linguist-vendored
+src/lib/l10n/app_localizations*.dart linguist-generated

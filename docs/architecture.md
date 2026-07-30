@@ -61,7 +61,7 @@ after migration. Missing or invalid data falls back to safe defaults.
 ## Localization
 
 Flutter `gen_l10n` generates localization classes from ARB files under
-`lib/l10n`. Interface labels, errors, and feedback messages are localized.
+`src/lib/l10n`. Interface labels, errors, and feedback messages are localized.
 Unsupported locales fall back to English; an absent explicit selection follows
 the operating system.
 

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="lib/assets/ic_launcher.png" alt="uAsleep app icon" width="112">
+  <img src="src/lib/assets/ic_launcher.png" alt="uAsleep app icon" width="112">
 </p>
 
 <h1 align="center">uAsleep</h1>
@@ -77,7 +77,7 @@ flutter doctor -v
 
 ```shell
 git clone https://github.com/import-tiago/uAsleep.git
-cd uAsleep
+cd uAsleep/src
 flutter pub get
 flutter run
 ```
@@ -87,7 +87,8 @@ Windows, macOS, and Linux. Building for iOS requires macOS and Xcode.
 
 ## Quality checks
 
-Run the same checks used by CI before opening a pull request:
+Run the same checks used by CI before opening a pull request. All Flutter
+commands are executed from `src/`:
 
 ```shell
 dart format --output=none --set-exit-if-changed lib test integration_test
@@ -106,22 +107,19 @@ flutter test --coverage
 ## Project structure
 
 ```text
-lib/
-├── app/                    # Bootstrap, routing, MaterialApp, and theme
-├── core/                   # Shared validation and platform adapters
-├── features/
-│   ├── calculator/
-│   │   ├── domain/         # Pure Dart entities, units, and calculation rules
-│   │   └── presentation/   # Cubit, page, and reusable widgets
-│   └── settings/
-│       ├── data/           # Local persistence and legacy migration
-│       ├── domain/         # Settings entity and repository contract
-│       └── presentation/   # Cubit and settings page
-├── l10n/                   # ARB sources and generated localization classes
-└── main.dart               # Application entry point
+src/                        # Complete Flutter project
+├── android/                # Android platform project
+├── ios/                    # iOS platform project
+├── lib/
+│   ├── app/                # Bootstrap, routing, MaterialApp, and theme
+│   ├── core/               # Shared validation and platform adapters
+│   ├── features/           # Calculator and settings features
+│   ├── l10n/               # ARB sources and generated localization classes
+│   └── main.dart           # Application entry point
+├── test/                   # Unit, state, widget, and adapter tests
+└── integration_test/       # End-to-end application flow
 
-test/                       # Unit, state, widget, and adapter tests
-integration_test/           # End-to-end application flow
+release/                    # Signed installable release artifacts
 docs/                       # Architecture and migration notes
 .github/                    # CI, Dependabot, and collaboration templates
 ```
@@ -133,7 +131,7 @@ See [Architecture](docs/architecture.md) for the dependency model and
 
 ## Localization
 
-Source messages live in `lib/l10n/*.arb`. To add a locale:
+Source messages live in `src/lib/l10n/*.arb`. To add a locale:
 
 1. Copy `app_en.arb` to `app_<locale>.arb`.
 2. Translate every message while preserving placeholders.
@@ -152,7 +150,7 @@ Android:
 flutter build appbundle
 ```
 
-Release signing is read from `android/key.properties` when available. That
+Release signing is read from `src/android/key.properties` when available. That
 file, keystores, credentials, and environment files are intentionally ignored
 and must never be committed.
 
@@ -161,6 +159,12 @@ iOS, on macOS:
 ```shell
 flutter build ios --no-codesign
 ```
+
+## Download
+
+The current signed Android release is available at
+[uAsleep 2.0.0+6](release/uAsleep-2.0.0+6-android-release.apk). Its integrity
+can be checked against [SHA256SUMS.txt](release/SHA256SUMS.txt).
 
 ## Contributing and security
 

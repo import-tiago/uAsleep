@@ -6,6 +6,7 @@
 
 <!-- List the commands, devices, and platforms used to validate the change. -->
 
+- [ ] Commands were run from `src/`.
 - [ ] `dart format --output=none --set-exit-if-changed lib test integration_test`
 - [ ] `flutter analyze`
 - [ ] `flutter test`
@@ -22,4 +23,3 @@
 - [ ] User-facing text is localized.
 - [ ] Documentation was updated when needed.
 - [ ] No credentials, generated build output, or local configuration was added.
-
