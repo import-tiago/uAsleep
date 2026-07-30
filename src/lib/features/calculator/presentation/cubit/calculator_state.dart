@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/battery_life_result.dart';
+import '../../domain/entities/battery_usage_profile.dart';
 import '../../domain/value_objects/measurement_units.dart';
 
 enum CalculatorStatus { initial, editing, success, invalid }
@@ -43,13 +44,14 @@ class CalculatorState extends Equatable {
     this.batteryCapacityUnit = BatteryCapacityUnit.milliampereHour,
     this.activeCurrent = '',
     this.activeCurrentUnit = CurrentUnit.milliampere,
-    this.sleepEnabled = true,
+    this.sleepEnabled = false,
     this.sleepCurrent = '',
     this.sleepCurrentUnit = CurrentUnit.microampere,
     this.activeDuration = '',
     this.activeDurationUnit = TimeUnit.second,
     this.wakeupsPerHour = '',
     this.result,
+    this.profile,
     this.issues = const <CalculatorIssue>[],
     this.warnings = const <CalculatorWarning>[],
   });
@@ -66,6 +68,7 @@ class CalculatorState extends Equatable {
   final TimeUnit activeDurationUnit;
   final String wakeupsPerHour;
   final BatteryLifeResult? result;
+  final BatteryUsageProfile? profile;
   final List<CalculatorIssue> issues;
   final List<CalculatorWarning> warnings;
 
@@ -91,6 +94,7 @@ class CalculatorState extends Equatable {
     TimeUnit? activeDurationUnit,
     String? wakeupsPerHour,
     BatteryLifeResult? result,
+    BatteryUsageProfile? profile,
     bool clearResult = false,
     List<CalculatorIssue>? issues,
     List<CalculatorWarning>? warnings,
@@ -108,6 +112,7 @@ class CalculatorState extends Equatable {
       activeDurationUnit: activeDurationUnit ?? this.activeDurationUnit,
       wakeupsPerHour: wakeupsPerHour ?? this.wakeupsPerHour,
       result: clearResult ? null : result ?? this.result,
+      profile: clearResult ? null : profile ?? this.profile,
       issues: issues ?? this.issues,
       warnings: warnings ?? this.warnings,
     );
@@ -127,6 +132,7 @@ class CalculatorState extends Equatable {
     activeDurationUnit,
     wakeupsPerHour,
     result,
+    profile,
     issues,
     warnings,
   ];

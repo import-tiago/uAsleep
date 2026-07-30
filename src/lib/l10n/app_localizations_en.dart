@@ -22,6 +22,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTooltip => 'Open settings';
 
   @override
+  String get historyTooltip => 'Open calculation history';
+
+  @override
   String get batterySectionTitle => 'Battery';
 
   @override
@@ -70,7 +73,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wakeupsPerHourLabel => 'Wake-ups per hour';
 
   @override
-  String get calculateButton => 'Estimate battery life';
+  String get calculateButton => 'Calculate';
 
   @override
   String get resetButton => 'Reset';
@@ -88,6 +91,30 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resultEmptyDescription =>
       'Complete the electrical profile to see the estimate.';
+
+  @override
+  String get exportButton => 'Export result';
+
+  @override
+  String get exportTooltip => 'Export result';
+
+  @override
+  String get exportUnavailable => 'The result could not be shared.';
+
+  @override
+  String get exportSubject => 'uAsleep battery estimate';
+
+  @override
+  String get exportReportTitle => 'uAsleep battery estimate';
+
+  @override
+  String get generatedAtLabel => 'Generated at';
+
+  @override
+  String get sleepModeEnabledValue => 'Enabled';
+
+  @override
+  String get sleepModeDisabledValue => 'Disabled';
 
   @override
   String get averageCurrentLabel => 'Average current';
@@ -178,6 +205,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsTitle => 'Settings';
+
+  @override
+  String get historyTitle => 'Calculation history';
+
+  @override
+  String get historyEmptyTitle => 'No calculations yet';
+
+  @override
+  String get historyEmptyDescription =>
+      'Your successful estimates will appear here.';
+
+  @override
+  String get historyReuseHint => 'Tap to reuse these parameters';
+
+  @override
+  String get historyClearTooltip => 'Clear history';
+
+  @override
+  String get historyClearTitle => 'Clear calculation history?';
+
+  @override
+  String get historyClearMessage =>
+      'This permanently removes every saved estimate from this device.';
+
+  @override
+  String get historyClearButton => 'Clear';
+
+  @override
+  String get cancelButton => 'Cancel';
+
+  @override
+  String get historyLoadFailure =>
+      'The calculation history could not be loaded.';
 
   @override
   String get appearanceTitle => 'Appearance';

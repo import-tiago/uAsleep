@@ -4,6 +4,9 @@ import 'package:integration_test/integration_test.dart';
 import 'package:uasleep/app/app.dart';
 import 'package:uasleep/core/services/app_info_provider.dart';
 import 'package:uasleep/core/services/feedback_launcher.dart';
+import 'package:uasleep/core/services/result_exporter.dart';
+import 'package:uasleep/features/calculator/domain/entities/calculation_history_entry.dart';
+import 'package:uasleep/features/calculator/domain/repositories/calculation_history_repository.dart';
 import 'package:uasleep/features/settings/domain/entities/app_settings.dart';
 import 'package:uasleep/features/settings/domain/repositories/settings_repository.dart';
 import 'package:uasleep/features/settings/presentation/pages/settings_page.dart';
@@ -19,14 +22,14 @@ void main() {
     await tester.pumpWidget(
       UAsleepApp(
         settingsRepository: repository,
+        historyRepository: _IntegrationHistoryRepository(),
         feedbackLauncher: const _NoopFeedbackLauncher(),
         appInfoProvider: const _StaticAppInfoProvider(),
+        resultExporter: const _NoopResultExporter(),
       ),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('sleepModeSwitch')));
-    await tester.pumpAndSettle();
     await tester.enterText(find.byKey(const Key('capacityField')), '1000');
     await tester.enterText(find.byKey(const Key('activeCurrentField')), '100');
     final Finder calculate = find.byKey(const Key('calculateButton'));
@@ -76,4 +79,29 @@ class _StaticAppInfoProvider implements AppInfoProvider {
 
   @override
   Future<String> version() async => '2.0.0+6';
+}
+
+class _NoopResultExporter implements ResultExporter {
+  const _NoopResultExporter();
+
+  @override
+  Future<bool> export({required String subject, required String body}) async =>
+      true;
+}
+
+class _IntegrationHistoryRepository implements CalculationHistoryRepository {
+  final List<CalculationHistoryEntry> entries = <CalculationHistoryEntry>[];
+
+  @override
+  Future<void> add(CalculationHistoryEntry entry) async {
+    entries.insert(0, entry);
+  }
+
+  @override
+  Future<void> clear() async {
+    entries.clear();
+  }
+
+  @override
+  Future<List<CalculationHistoryEntry>> load() async => entries;
 }

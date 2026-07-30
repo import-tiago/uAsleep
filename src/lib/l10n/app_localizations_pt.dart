@@ -22,6 +22,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsTooltip => 'Abrir configurações';
 
   @override
+  String get historyTooltip => 'Abrir histórico de cálculos';
+
+  @override
   String get batterySectionTitle => 'Bateria';
 
   @override
@@ -90,6 +93,30 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get resultEmptyDescription =>
       'Preencha o perfil elétrico para visualizar a estimativa.';
+
+  @override
+  String get exportButton => 'Exportar resultado';
+
+  @override
+  String get exportTooltip => 'Exportar resultado';
+
+  @override
+  String get exportUnavailable => 'Não foi possível compartilhar o resultado.';
+
+  @override
+  String get exportSubject => 'Estimativa de autonomia do uAsleep';
+
+  @override
+  String get exportReportTitle => 'Estimativa de autonomia do uAsleep';
+
+  @override
+  String get generatedAtLabel => 'Gerado em';
+
+  @override
+  String get sleepModeEnabledValue => 'Ativado';
+
+  @override
+  String get sleepModeDisabledValue => 'Desativado';
 
   @override
   String get averageCurrentLabel => 'Corrente média';
@@ -180,6 +207,39 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settingsTitle => 'Configurações';
+
+  @override
+  String get historyTitle => 'Histórico de cálculos';
+
+  @override
+  String get historyEmptyTitle => 'Nenhum cálculo ainda';
+
+  @override
+  String get historyEmptyDescription =>
+      'Suas estimativas concluídas aparecerão aqui.';
+
+  @override
+  String get historyReuseHint => 'Toque para reutilizar estes parâmetros';
+
+  @override
+  String get historyClearTooltip => 'Limpar histórico';
+
+  @override
+  String get historyClearTitle => 'Limpar histórico de cálculos?';
+
+  @override
+  String get historyClearMessage =>
+      'Isso removerá permanentemente deste aparelho todas as estimativas salvas.';
+
+  @override
+  String get historyClearButton => 'Limpar';
+
+  @override
+  String get cancelButton => 'Cancelar';
+
+  @override
+  String get historyLoadFailure =>
+      'Não foi possível carregar o histórico de cálculos.';
 
   @override
   String get appearanceTitle => 'Aparência';
@@ -291,6 +351,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsTooltip => 'Abrir configurações';
 
   @override
+  String get historyTooltip => 'Abrir histórico de cálculos';
+
+  @override
   String get batterySectionTitle => 'Bateria';
 
   @override
@@ -359,6 +422,30 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get resultEmptyDescription =>
       'Preencha o perfil elétrico para visualizar a estimativa.';
+
+  @override
+  String get exportButton => 'Exportar resultado';
+
+  @override
+  String get exportTooltip => 'Exportar resultado';
+
+  @override
+  String get exportUnavailable => 'Não foi possível compartilhar o resultado.';
+
+  @override
+  String get exportSubject => 'Estimativa de autonomia do uAsleep';
+
+  @override
+  String get exportReportTitle => 'Estimativa de autonomia do uAsleep';
+
+  @override
+  String get generatedAtLabel => 'Gerado em';
+
+  @override
+  String get sleepModeEnabledValue => 'Ativado';
+
+  @override
+  String get sleepModeDisabledValue => 'Desativado';
 
   @override
   String get averageCurrentLabel => 'Corrente média';
@@ -449,6 +536,39 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsTitle => 'Configurações';
+
+  @override
+  String get historyTitle => 'Histórico de cálculos';
+
+  @override
+  String get historyEmptyTitle => 'Nenhum cálculo ainda';
+
+  @override
+  String get historyEmptyDescription =>
+      'Suas estimativas concluídas aparecerão aqui.';
+
+  @override
+  String get historyReuseHint => 'Toque para reutilizar estes parâmetros';
+
+  @override
+  String get historyClearTooltip => 'Limpar histórico';
+
+  @override
+  String get historyClearTitle => 'Limpar histórico de cálculos?';
+
+  @override
+  String get historyClearMessage =>
+      'Isso removerá permanentemente deste aparelho todas as estimativas salvas.';
+
+  @override
+  String get historyClearButton => 'Limpar';
+
+  @override
+  String get cancelButton => 'Cancelar';
+
+  @override
+  String get historyLoadFailure =>
+      'Não foi possível carregar o histórico de cálculos.';
 
   @override
   String get appearanceTitle => 'Aparência';

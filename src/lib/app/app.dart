@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../core/services/app_info_provider.dart';
 import '../core/services/feedback_launcher.dart';
+import '../core/services/result_exporter.dart';
+import '../features/calculator/domain/repositories/calculation_history_repository.dart';
 import '../features/settings/domain/entities/app_settings.dart';
 import '../features/settings/domain/repositories/settings_repository.dart';
 import '../features/settings/presentation/cubit/settings_cubit.dart';
@@ -15,14 +17,18 @@ import 'theme/app_theme.dart';
 class UAsleepApp extends StatelessWidget {
   const UAsleepApp({
     required this.settingsRepository,
+    required this.historyRepository,
     this.feedbackLauncher = const MailtoFeedbackLauncher(),
     this.appInfoProvider = const PackageAppInfoProvider(),
+    this.resultExporter = const ShareResultExporter(),
     super.key,
   });
 
   final SettingsRepository settingsRepository;
+  final CalculationHistoryRepository historyRepository;
   final FeedbackLauncher feedbackLauncher;
   final AppInfoProvider appInfoProvider;
+  final ResultExporter resultExporter;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +37,8 @@ class UAsleepApp extends StatelessWidget {
       child: _AppView(
         feedbackLauncher: feedbackLauncher,
         appInfoProvider: appInfoProvider,
+        historyRepository: historyRepository,
+        resultExporter: resultExporter,
       ),
     );
   }
@@ -40,10 +48,14 @@ class _AppView extends StatelessWidget {
   const _AppView({
     required this.feedbackLauncher,
     required this.appInfoProvider,
+    required this.historyRepository,
+    required this.resultExporter,
   });
 
   final FeedbackLauncher feedbackLauncher;
   final AppInfoProvider appInfoProvider;
+  final CalculationHistoryRepository historyRepository;
+  final ResultExporter resultExporter;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +65,8 @@ class _AppView extends StatelessWidget {
         final AppRouter router = AppRouter(
           feedbackLauncher: feedbackLauncher,
           appInfoProvider: appInfoProvider,
+          historyRepository: historyRepository,
+          resultExporter: resultExporter,
         );
         return MaterialApp(
           onGenerateTitle: (BuildContext context) =>

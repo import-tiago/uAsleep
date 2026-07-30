@@ -123,6 +123,12 @@ abstract class AppLocalizations {
   /// **'Open settings'**
   String get settingsTooltip;
 
+  /// No description provided for @historyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Open calculation history'**
+  String get historyTooltip;
+
   /// No description provided for @batterySectionTitle.
   ///
   /// In en, this message translates to:
@@ -216,7 +222,7 @@ abstract class AppLocalizations {
   /// No description provided for @calculateButton.
   ///
   /// In en, this message translates to:
-  /// **'Estimate battery life'**
+  /// **'Calculate'**
   String get calculateButton;
 
   /// No description provided for @resetButton.
@@ -248,6 +254,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complete the electrical profile to see the estimate.'**
   String get resultEmptyDescription;
+
+  /// No description provided for @exportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Export result'**
+  String get exportButton;
+
+  /// No description provided for @exportTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Export result'**
+  String get exportTooltip;
+
+  /// No description provided for @exportUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The result could not be shared.'**
+  String get exportUnavailable;
+
+  /// No description provided for @exportSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'uAsleep battery estimate'**
+  String get exportSubject;
+
+  /// No description provided for @exportReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'uAsleep battery estimate'**
+  String get exportReportTitle;
+
+  /// No description provided for @generatedAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated at'**
+  String get generatedAtLabel;
+
+  /// No description provided for @sleepModeEnabledValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get sleepModeEnabledValue;
+
+  /// No description provided for @sleepModeDisabledValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get sleepModeDisabledValue;
 
   /// No description provided for @averageCurrentLabel.
   ///
@@ -350,6 +404,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsTitle;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculation history'**
+  String get historyTitle;
+
+  /// No description provided for @historyEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No calculations yet'**
+  String get historyEmptyTitle;
+
+  /// No description provided for @historyEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your successful estimates will appear here.'**
+  String get historyEmptyDescription;
+
+  /// No description provided for @historyReuseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to reuse these parameters'**
+  String get historyReuseHint;
+
+  /// No description provided for @historyClearTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear history'**
+  String get historyClearTooltip;
+
+  /// No description provided for @historyClearTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear calculation history?'**
+  String get historyClearTitle;
+
+  /// No description provided for @historyClearMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently removes every saved estimate from this device.'**
+  String get historyClearMessage;
+
+  /// No description provided for @historyClearButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get historyClearButton;
+
+  /// No description provided for @cancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelButton;
+
+  /// No description provided for @historyLoadFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'The calculation history could not be loaded.'**
+  String get historyLoadFailure;
 
   /// No description provided for @appearanceTitle.
   ///

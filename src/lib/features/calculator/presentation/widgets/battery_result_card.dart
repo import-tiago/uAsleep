@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/battery_life_result.dart';
-import '../../domain/services/battery_life_formatter.dart';
+import '../formatters/calculation_presentation_formatter.dart';
 
 class BatteryResultCard extends StatelessWidget {
   const BatteryResultCard({
     required this.result,
     required this.precision,
     required this.showWarning,
+    this.onExport,
     super.key,
   });
 
   final BatteryLifeResult? result;
   final int precision;
   final bool showWarning;
+  final VoidCallback? onExport;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,11 @@ class BatteryResultCard extends StatelessWidget {
                       ),
                       const SizedBox(height: AppSpacing.medium),
                       Text(
-                        _duration(context, value.hours),
+                        const CalculationPresentationFormatter().duration(
+                          context,
+                          value.hours,
+                          precision,
+                        ),
                         key: const Key('resultDuration'),
                         style: Theme.of(context).textTheme.headlineMedium
                             ?.copyWith(
@@ -71,7 +76,7 @@ class BatteryResultCard extends StatelessWidget {
                           _Metric(
                             label: l10n.averageCurrentLabel,
                             value: l10n.averageCurrentValue(
-                              _number(
+                              const CalculationPresentationFormatter().number(
                                 context,
                                 value.averageCurrentMilliamperes,
                                 precision == 0 ? 2 : 4,
@@ -81,7 +86,7 @@ class BatteryResultCard extends StatelessWidget {
                           _Metric(
                             label: l10n.dutyCycleLabel,
                             value: l10n.percentageValue(
-                              _number(
+                              const CalculationPresentationFormatter().number(
                                 context,
                                 value.activeDutyCycle * 100,
                                 precision,
@@ -101,44 +106,22 @@ class BatteryResultCard extends StatelessWidget {
                           ],
                         ),
                       ],
+                      if (onExport
+                          case final VoidCallback callback) ...<Widget>[
+                        const SizedBox(height: AppSpacing.medium),
+                        OutlinedButton.icon(
+                          key: const Key('exportResultButton'),
+                          onPressed: callback,
+                          icon: const Icon(Icons.ios_share_rounded),
+                          label: Text(l10n.exportButton),
+                        ),
+                      ],
                     ],
                   ),
                 ),
               ),
       ),
     );
-  }
-
-  String _duration(BuildContext context, double hours) {
-    final AppLocalizations l10n = AppLocalizations.of(context);
-    final BatteryLifeDisplay display = const BatteryLifeFormatter()
-        .selectDisplay(hours);
-    final String formatted = _number(context, display.value, precision);
-    return switch (display.unit) {
-      BatteryLifeDisplayUnit.hours => l10n.durationHours(
-        display.value,
-        formatted,
-      ),
-      BatteryLifeDisplayUnit.days => l10n.durationDays(
-        display.value,
-        formatted,
-      ),
-      BatteryLifeDisplayUnit.months => l10n.durationMonths(
-        display.value,
-        formatted,
-      ),
-      BatteryLifeDisplayUnit.years => l10n.durationYears(
-        display.value,
-        formatted,
-      ),
-    };
-  }
-
-  String _number(BuildContext context, double value, int digits) {
-    return NumberFormat.decimalPatternDigits(
-      locale: Localizations.localeOf(context).toLanguageTag(),
-      decimalDigits: digits,
-    ).format(value);
   }
 }
 

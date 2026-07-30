@@ -1,5 +1,8 @@
 import 'package:uasleep/core/services/app_info_provider.dart';
 import 'package:uasleep/core/services/feedback_launcher.dart';
+import 'package:uasleep/core/services/result_exporter.dart';
+import 'package:uasleep/features/calculator/domain/entities/calculation_history_entry.dart';
+import 'package:uasleep/features/calculator/domain/repositories/calculation_history_repository.dart';
 import 'package:uasleep/features/settings/data/services/legacy_settings_source.dart';
 import 'package:uasleep/features/settings/data/services/settings_data_source.dart';
 import 'package:uasleep/features/settings/domain/entities/app_settings.dart';
@@ -95,4 +98,40 @@ class FakeAppInfoProvider implements AppInfoProvider {
 
   @override
   Future<String> version() async => value;
+}
+
+class FakeResultExporter implements ResultExporter {
+  FakeResultExporter({this.result = true});
+
+  bool result;
+  int calls = 0;
+  String? lastBody;
+  String? lastSubject;
+
+  @override
+  Future<bool> export({required String subject, required String body}) async {
+    calls += 1;
+    lastSubject = subject;
+    lastBody = body;
+    return result;
+  }
+}
+
+class MemoryCalculationHistoryRepository
+    implements CalculationHistoryRepository {
+  final List<CalculationHistoryEntry> entries = <CalculationHistoryEntry>[];
+
+  @override
+  Future<void> add(CalculationHistoryEntry entry) async {
+    entries.insert(0, entry);
+  }
+
+  @override
+  Future<void> clear() async {
+    entries.clear();
+  }
+
+  @override
+  Future<List<CalculationHistoryEntry>> load() async =>
+      List<CalculationHistoryEntry>.unmodifiable(entries);
 }

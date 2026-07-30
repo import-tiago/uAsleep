@@ -5,6 +5,20 @@ All notable changes to uAsleep are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Persistent on-device history for the 50 most recent calculations.
+- Localized result export through the native system share sheet.
+- One-tap restoration of a historical calculation into the editable form.
+
+### Changed
+
+- New installations default to simple result precision and disabled sleep mode.
+- Calculation actions stack vertically when large accessibility fonts or
+  narrow screens would make button labels wrap.
+
 ## [2.0.0+6] - 2026-07-30
 
 ### Added

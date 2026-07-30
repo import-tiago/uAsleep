@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/validation/localized_number_parser.dart';
+import '../../domain/entities/battery_life_result.dart';
 import '../../domain/entities/battery_usage_profile.dart';
+import '../../domain/entities/calculation_history_entry.dart';
 import '../../domain/errors/battery_life_exception.dart';
+import '../../domain/repositories/calculation_history_repository.dart';
 import '../../domain/services/battery_life_calculator.dart';
 import '../../domain/value_objects/measurement_units.dart';
 import 'calculator_state.dart';
@@ -11,15 +16,23 @@ class CalculatorCubit extends Cubit<CalculatorState> {
   factory CalculatorCubit({
     BatteryLifeCalculator calculator = const BatteryLifeCalculator(),
     LocalizedNumberParser parser = const LocalizedNumberParser(),
+    CalculationHistoryRepository? historyRepository,
+    DateTime Function() clock = DateTime.now,
   }) {
-    return CalculatorCubit._(calculator, parser);
+    return CalculatorCubit._(calculator, parser, historyRepository, clock);
   }
 
-  CalculatorCubit._(this._calculator, this._parser)
-    : super(const CalculatorState());
+  CalculatorCubit._(
+    this._calculator,
+    this._parser,
+    this._historyRepository,
+    this._clock,
+  ) : super(const CalculatorState());
 
   final BatteryLifeCalculator _calculator;
   final LocalizedNumberParser _parser;
+  final CalculationHistoryRepository? _historyRepository;
+  final DateTime Function() _clock;
 
   void batteryCapacityChanged(String value) {
     emit(_editing(state.copyWith(batteryCapacity: value)));
@@ -59,6 +72,24 @@ class CalculatorCubit extends Cubit<CalculatorState> {
 
   void wakeupsPerHourChanged(String value) {
     emit(_editing(state.copyWith(wakeupsPerHour: value)));
+  }
+
+  void loadProfile(BatteryUsageProfile profile) {
+    emit(
+      CalculatorState(
+        status: CalculatorStatus.editing,
+        batteryCapacity: _inputValue(profile.batteryCapacity),
+        batteryCapacityUnit: profile.batteryCapacityUnit,
+        activeCurrent: _inputValue(profile.activeCurrent),
+        activeCurrentUnit: profile.activeCurrentUnit,
+        sleepEnabled: profile.sleepEnabled,
+        sleepCurrent: _inputValue(profile.sleepCurrent),
+        sleepCurrentUnit: profile.sleepCurrentUnit,
+        activeDuration: _inputValue(profile.activeDuration),
+        activeDurationUnit: profile.activeDurationUnit,
+        wakeupsPerHour: _inputValue(profile.wakeupsPerHour),
+      ),
+    );
   }
 
   void reset() => emit(const CalculatorState());
@@ -135,10 +166,12 @@ class CalculatorCubit extends Cubit<CalculatorState> {
         state.copyWith(
           status: CalculatorStatus.success,
           result: result,
+          profile: profile,
           issues: const <CalculatorIssue>[],
           warnings: _warningsFor(profile, result.hours),
         ),
       );
+      unawaited(_saveToHistory(profile, result));
     } on BatteryLifeException catch (error) {
       emit(
         state.copyWith(
@@ -148,6 +181,29 @@ class CalculatorCubit extends Cubit<CalculatorState> {
           warnings: const <CalculatorWarning>[],
         ),
       );
+    }
+  }
+
+  Future<void> _saveToHistory(
+    BatteryUsageProfile profile,
+    BatteryLifeResult result,
+  ) async {
+    final CalculationHistoryRepository? repository = _historyRepository;
+    if (repository == null) {
+      return;
+    }
+    final DateTime createdAt = _clock().toUtc();
+    try {
+      await repository.add(
+        CalculationHistoryEntry(
+          id: createdAt.microsecondsSinceEpoch.toString(),
+          createdAt: createdAt,
+          profile: profile,
+          result: result,
+        ),
+      );
+    } on Exception {
+      // A storage failure must not discard an otherwise valid calculation.
     }
   }
 
@@ -188,6 +244,13 @@ class CalculatorCubit extends Cubit<CalculatorState> {
       return null;
     }
     return value;
+  }
+
+  String _inputValue(double value) {
+    if (value == value.truncateToDouble()) {
+      return value.toStringAsFixed(0);
+    }
+    return value.toString();
   }
 
   CalculatorIssue _issueFor(BatteryLifeErrorCode code) {

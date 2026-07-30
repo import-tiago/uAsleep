@@ -27,10 +27,13 @@ limitations explicit.
 - Active duration in `µs`, `ms`, `s`, `min`, or `h`.
 - Optional sleep-mode duty-cycle calculation.
 - Average current, active duty cycle, and human-readable battery life.
+- On-device history for the 50 most recent successful calculations, with
+  one-tap parameter reuse.
+- Native result export through the system share sheet.
 - Localized validation with both comma and dot decimal separators.
 - English, Brazilian Portuguese, and system-language modes.
 - Light, dark, and system themes.
-- Persistent language, theme, and precision preferences.
+- Persistent language, theme, precision, and calculation history.
 - No analytics, tracking, accounts, or network-based calculation.
 
 ## How the estimate works

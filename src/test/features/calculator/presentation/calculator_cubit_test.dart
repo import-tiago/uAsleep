@@ -1,15 +1,16 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:uasleep/features/calculator/domain/entities/battery_usage_profile.dart';
 import 'package:uasleep/features/calculator/domain/value_objects/measurement_units.dart';
 import 'package:uasleep/features/calculator/presentation/cubit/calculator_cubit.dart';
 import 'package:uasleep/features/calculator/presentation/cubit/calculator_state.dart';
 
 void main() {
   group('CalculatorCubit', () {
-    test('has an empty, sleep-enabled initial state', () {
+    test('has an empty, sleep-disabled initial state', () {
       final CalculatorCubit cubit = CalculatorCubit();
       expect(cubit.state, const CalculatorState());
-      expect(cubit.state.sleepEnabled, isTrue);
+      expect(cubit.state.sleepEnabled, isFalse);
       expect(cubit.state.result, isNull);
       cubit.close();
     });
@@ -42,10 +43,44 @@ void main() {
     );
 
     blocTest<CalculatorCubit, CalculatorState>(
+      'loads every parameter from a historical profile for editing',
+      build: CalculatorCubit.new,
+      act: (CalculatorCubit cubit) => cubit.loadProfile(
+        const BatteryUsageProfile(
+          batteryCapacity: 2.5,
+          batteryCapacityUnit: BatteryCapacityUnit.ampereHour,
+          activeCurrent: 20,
+          activeCurrentUnit: CurrentUnit.milliampere,
+          sleepCurrent: 10,
+          sleepCurrentUnit: CurrentUnit.microampere,
+          activeDuration: 250,
+          activeDurationUnit: TimeUnit.millisecond,
+          wakeupsPerHour: 12,
+        ),
+      ),
+      expect: () => <CalculatorState>[
+        const CalculatorState(
+          status: CalculatorStatus.editing,
+          batteryCapacity: '2.5',
+          batteryCapacityUnit: BatteryCapacityUnit.ampereHour,
+          activeCurrent: '20',
+          activeCurrentUnit: CurrentUnit.milliampere,
+          sleepEnabled: true,
+          sleepCurrent: '10',
+          sleepCurrentUnit: CurrentUnit.microampere,
+          activeDuration: '250',
+          activeDurationUnit: TimeUnit.millisecond,
+          wakeupsPerHour: '12',
+        ),
+      ],
+    );
+
+    blocTest<CalculatorCubit, CalculatorState>(
       'calculates a valid sleep profile',
       build: CalculatorCubit.new,
       act: (CalculatorCubit cubit) {
         cubit
+          ..sleepEnabledChanged(value: true)
           ..batteryCapacityChanged('2000')
           ..activeCurrentChanged('20')
           ..sleepCurrentChanged('10')
@@ -53,7 +88,7 @@ void main() {
           ..wakeupsPerHourChanged('60')
           ..calculate();
       },
-      skip: 5,
+      skip: 6,
       expect: () => <Matcher>[
         isA<CalculatorState>()
             .having(
@@ -83,7 +118,7 @@ void main() {
             .having(
               (CalculatorState state) => state.issues.length,
               'issues',
-              5,
+              2,
             ),
       ],
     );
@@ -93,12 +128,11 @@ void main() {
       build: CalculatorCubit.new,
       act: (CalculatorCubit cubit) {
         cubit
-          ..sleepEnabledChanged(value: false)
           ..batteryCapacityChanged('1000')
           ..activeCurrentChanged('100')
           ..calculate();
       },
-      skip: 3,
+      skip: 2,
       expect: () => <Matcher>[
         isA<CalculatorState>().having(
           (CalculatorState state) => state.result?.hours,
@@ -113,6 +147,7 @@ void main() {
       build: CalculatorCubit.new,
       act: (CalculatorCubit cubit) {
         cubit
+          ..sleepEnabledChanged(value: true)
           ..batteryCapacityChanged('1000')
           ..activeCurrentChanged('10')
           ..sleepCurrentChanged('0')
@@ -120,7 +155,7 @@ void main() {
           ..wakeupsPerHourChanged('60')
           ..calculate();
       },
-      skip: 5,
+      skip: 6,
       expect: () => <Matcher>[
         isA<CalculatorState>().having(
           (CalculatorState state) =>
@@ -136,12 +171,11 @@ void main() {
       build: CalculatorCubit.new,
       act: (CalculatorCubit cubit) {
         cubit
-          ..sleepEnabledChanged(value: false)
           ..batteryCapacityChanged('Infinity')
           ..activeCurrentChanged('10')
           ..calculate();
       },
-      skip: 3,
+      skip: 2,
       expect: () => <Matcher>[
         isA<CalculatorState>().having(
           (CalculatorState state) =>
@@ -157,12 +191,11 @@ void main() {
       build: CalculatorCubit.new,
       act: (CalculatorCubit cubit) {
         cubit
-          ..sleepEnabledChanged(value: false)
           ..batteryCapacityChanged('10000001')
           ..activeCurrentChanged('1')
           ..calculate();
       },
-      skip: 3,
+      skip: 2,
       verify: (CalculatorCubit cubit) {
         expect(cubit.state.warnings, const <CalculatorWarning>[
           CalculatorWarning.potentiallyUnrealistic,

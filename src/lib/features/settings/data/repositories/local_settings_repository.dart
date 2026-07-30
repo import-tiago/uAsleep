@@ -34,7 +34,7 @@ class LocalSettingsRepository implements SettingsRepository {
       precision: switch (storedPrecision) {
         0 => 0,
         2 => 2,
-        _ => 2,
+        _ => 0,
       },
       theme: AppThemePreference.values.firstWhere(
         (AppThemePreference value) => value.name == storedTheme,

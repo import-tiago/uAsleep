@@ -11,12 +11,17 @@ void main() {
     WidgetTester tester, {
     MemorySettingsRepository? repository,
     FakeFeedbackLauncher? feedbackLauncher,
+    MemoryCalculationHistoryRepository? historyRepository,
+    FakeResultExporter? resultExporter,
   }) async {
     await tester.pumpWidget(
       UAsleepApp(
         settingsRepository: repository ?? MemorySettingsRepository(),
+        historyRepository:
+            historyRepository ?? MemoryCalculationHistoryRepository(),
         feedbackLauncher: feedbackLauncher ?? FakeFeedbackLauncher(),
         appInfoProvider: const FakeAppInfoProvider(),
+        resultExporter: resultExporter ?? FakeResultExporter(),
       ),
     );
     await tester.pumpAndSettle();
@@ -37,6 +42,7 @@ void main() {
     expect(find.text('Battery life estimator'), findsNothing);
     expect(find.byKey(const Key('capacityField')), findsOneWidget);
     expect(find.byKey(const Key('sleepModeSwitch')), findsOneWidget);
+    expect(find.byKey(const Key('sleepCurrentField')), findsNothing);
     expect(find.text('Ready to calculate'), findsOneWidget);
   });
 
@@ -44,6 +50,8 @@ void main() {
     WidgetTester tester,
   ) async {
     await pumpApp(tester);
+    await tester.tap(find.byKey(const Key('sleepModeSwitch')));
+    await tester.pumpAndSettle();
     await enter(tester, const Key('capacityField'), '2000');
     await enter(tester, const Key('activeCurrentField'), '20');
     await enter(tester, const Key('sleepCurrentField'), '10');
@@ -68,16 +76,12 @@ void main() {
     await tester.tap(calculate);
     await tester.pumpAndSettle();
 
-    expect(find.text('Enter a value.'), findsNWidgets(5));
+    expect(find.text('Enter a value.'), findsNWidgets(2));
     expect(find.byKey(const Key('resultDuration')), findsNothing);
   });
 
   testWidgets('resets entered fields and output', (WidgetTester tester) async {
     await pumpApp(tester);
-    final Finder sleepSwitch = find.byKey(const Key('sleepModeSwitch'));
-    await tester.ensureVisible(sleepSwitch);
-    await tester.tap(sleepSwitch);
-    await tester.pumpAndSettle();
     await enter(tester, const Key('capacityField'), '1000');
     await enter(tester, const Key('activeCurrentField'), '100');
 
@@ -169,5 +173,60 @@ void main() {
 
     expect(tester.takeException(), isNull);
     expect(find.byKey(const Key('capacityField')), findsOneWidget);
+    final Rect calculate = tester.getRect(
+      find.byKey(const Key('calculateButton')),
+    );
+    final Rect reset = tester.getRect(find.byKey(const Key('resetButton')));
+    expect(calculate.bottom, lessThan(reset.top));
+  });
+
+  testWidgets('saves, exports, and restores a historical calculation', (
+    WidgetTester tester,
+  ) async {
+    final MemoryCalculationHistoryRepository history =
+        MemoryCalculationHistoryRepository();
+    final FakeResultExporter exporter = FakeResultExporter();
+    await pumpApp(tester, historyRepository: history, resultExporter: exporter);
+    await enter(tester, const Key('capacityField'), '1000');
+    await enter(tester, const Key('activeCurrentField'), '100');
+    await tester.ensureVisible(find.byKey(const Key('calculateButton')));
+    await tester.tap(find.byKey(const Key('calculateButton')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('exportResultButton')));
+    await tester.pumpAndSettle();
+    expect(exporter.calls, 1);
+    expect(exporter.lastBody, contains('10 hours'));
+    expect(history.entries, hasLength(1));
+
+    await tester.ensureVisible(find.byKey(const Key('resetButton')));
+    await tester.tap(find.byKey(const Key('resetButton')));
+    await tester.pumpAndSettle();
+    TextField capacity = tester.widget<TextField>(
+      find.byKey(const Key('capacityField')),
+    );
+    expect(capacity.controller?.text, isEmpty);
+
+    await tester.tap(find.byKey(const Key('historyButton')));
+    await tester.pumpAndSettle();
+    expect(find.text('Calculation history'), findsOneWidget);
+    expect(find.text('10 hours'), findsOneWidget);
+
+    await tester.tap(
+      find.byKey(ValueKey<String>('historyEntry-${history.entries.single.id}')),
+    );
+    await tester.pumpAndSettle();
+
+    capacity = tester.widget<TextField>(find.byKey(const Key('capacityField')));
+    final TextField activeCurrent = tester.widget<TextField>(
+      find.byKey(const Key('activeCurrentField')),
+    );
+    final SwitchListTile sleepMode = tester.widget<SwitchListTile>(
+      find.byKey(const Key('sleepModeSwitch')),
+    );
+    expect(capacity.controller?.text, '1000');
+    expect(activeCurrent.controller?.text, '100');
+    expect(sleepMode.value, isFalse);
+    expect(find.byKey(const Key('resultDuration')), findsNothing);
   });
 }

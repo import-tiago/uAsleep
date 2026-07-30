@@ -3,17 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../app/router/app_router.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../core/services/result_exporter.dart';
 import '../../../../features/settings/presentation/cubit/settings_cubit.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../domain/entities/calculation_history_entry.dart';
 import '../../domain/value_objects/measurement_units.dart';
 import '../cubit/calculator_cubit.dart';
 import '../cubit/calculator_state.dart';
+import '../formatters/calculation_presentation_formatter.dart';
 import '../widgets/battery_result_card.dart';
 import '../widgets/engineering_section.dart';
 import '../widgets/numeric_fields.dart';
 
 class CalculatorPage extends StatefulWidget {
-  const CalculatorPage({super.key});
+  const CalculatorPage({required this.resultExporter, super.key});
+
+  final ResultExporter resultExporter;
 
   @override
   State<CalculatorPage> createState() => _CalculatorPageState();
@@ -59,6 +64,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
       appBar: AppBar(
         title: Text(l10n.appTitle),
         actions: <Widget>[
+          IconButton(
+            key: const Key('historyButton'),
+            tooltip: l10n.historyTooltip,
+            onPressed: _openHistory,
+            icon: const Icon(Icons.history_rounded),
+          ),
           IconButton(
             key: const Key('settingsButton'),
             tooltip: l10n.settingsTooltip,
@@ -284,27 +295,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
                             ),
                           ],
                           const SizedBox(height: AppSpacing.large),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: OutlinedButton.icon(
-                                  key: const Key('resetButton'),
-                                  onPressed: () => _reset(context),
-                                  icon: const Icon(Icons.restart_alt_rounded),
-                                  label: Text(l10n.resetButton),
-                                ),
-                              ),
-                              const SizedBox(width: AppSpacing.small),
-                              Expanded(
-                                flex: 2,
-                                child: FilledButton.icon(
-                                  key: const Key('calculateButton'),
-                                  onPressed: () => _calculate(context),
-                                  icon: const Icon(Icons.bolt_rounded),
-                                  label: Text(l10n.calculateButton),
-                                ),
-                              ),
-                            ],
+                          _CalculatorActions(
+                            onReset: () => _reset(context),
+                            onCalculate: () => _calculate(context),
                           ),
                           const SizedBox(height: AppSpacing.large),
                           BatteryResultCard(
@@ -313,6 +306,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
                             showWarning: state.warnings.contains(
                               CalculatorWarning.potentiallyUnrealistic,
                             ),
+                            onExport:
+                                state.result != null && state.profile != null
+                                ? () => _export(context, state, precision)
+                                : null,
                           ),
                           const SizedBox(height: AppSpacing.medium),
                           Row(
@@ -357,6 +354,51 @@ class _CalculatorPageState extends State<CalculatorPage> {
     context.read<CalculatorCubit>().calculate();
   }
 
+  Future<void> _export(
+    BuildContext context,
+    CalculatorState state,
+    int precision,
+  ) async {
+    final result = state.result;
+    final profile = state.profile;
+    if (result == null || profile == null) {
+      return;
+    }
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final bool exported = await widget.resultExporter.export(
+      subject: l10n.exportSubject,
+      body: const CalculationPresentationFormatter().report(
+        context,
+        profile: profile,
+        result: result,
+        precision: precision,
+      ),
+    );
+    if (!exported && context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.exportUnavailable)));
+    }
+  }
+
+  Future<void> _openHistory() async {
+    final Object? selected = await Navigator.of(
+      context,
+    ).pushNamed(AppRoutes.history);
+    if (!mounted || selected is! CalculationHistoryEntry) {
+      return;
+    }
+
+    final CalculatorCubit cubit = context.read<CalculatorCubit>()
+      ..loadProfile(selected.profile);
+    final CalculatorState restored = cubit.state;
+    _setControllerText(_capacityController, restored.batteryCapacity);
+    _setControllerText(_activeCurrentController, restored.activeCurrent);
+    _setControllerText(_sleepCurrentController, restored.sleepCurrent);
+    _setControllerText(_activeDurationController, restored.activeDuration);
+    _setControllerText(_wakeupsController, restored.wakeupsPerHour);
+  }
+
   void _reset(BuildContext context) {
     _capacityController.clear();
     _activeCurrentController.clear();
@@ -365,6 +407,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
     _wakeupsController.clear();
     context.read<CalculatorCubit>().reset();
     _capacityFocus.requestFocus();
+  }
+
+  void _setControllerText(TextEditingController controller, String value) {
+    controller.value = TextEditingValue(
+      text: value,
+      selection: TextSelection.collapsed(offset: value.length),
+    );
   }
 
   String? _errorText(AppLocalizations l10n, CalculatorInputError? error) {
@@ -380,6 +429,62 @@ class _CalculatorPageState extends State<CalculatorPage> {
         l10n.validationZeroAverageCurrent,
       null => null,
     };
+  }
+}
+
+class _CalculatorActions extends StatelessWidget {
+  const _CalculatorActions({required this.onReset, required this.onCalculate});
+
+  final VoidCallback onReset;
+  final VoidCallback onCalculate;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double textScale = MediaQuery.textScalerOf(context).scale(1);
+        final bool stack = constraints.maxWidth < 360 || textScale > 1.3;
+        final Widget reset = OutlinedButton.icon(
+          key: const Key('resetButton'),
+          onPressed: onReset,
+          icon: const Icon(Icons.restart_alt_rounded),
+          label: Text(
+            l10n.resetButton,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        );
+        final Widget calculate = FilledButton.icon(
+          key: const Key('calculateButton'),
+          onPressed: onCalculate,
+          icon: const Icon(Icons.bolt_rounded),
+          label: Text(
+            l10n.calculateButton,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        );
+
+        if (stack) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(width: double.infinity, child: calculate),
+              const SizedBox(height: AppSpacing.small),
+              SizedBox(width: double.infinity, child: reset),
+            ],
+          );
+        }
+        return Row(
+          children: <Widget>[
+            Expanded(child: reset),
+            const SizedBox(width: AppSpacing.small),
+            Expanded(flex: 2, child: calculate),
+          ],
+        );
+      },
+    );
   }
 }
 

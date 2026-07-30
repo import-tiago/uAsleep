@@ -5,7 +5,7 @@ enum AppThemePreference { system, light, dark }
 class AppSettings extends Equatable {
   const AppSettings({
     this.localeTag,
-    this.precision = 2,
+    this.precision = 0,
     this.theme = AppThemePreference.system,
   }) : assert(precision == 0 || precision == 2);
 

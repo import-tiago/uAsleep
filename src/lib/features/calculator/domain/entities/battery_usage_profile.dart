@@ -1,10 +1,12 @@
+import 'package:equatable/equatable.dart';
+
 import '../value_objects/measurement_units.dart';
 
 /// Electrical and duty-cycle inputs used by the estimator.
 ///
 /// The frequency is expressed as wake-ups per hour to preserve the public
 /// model used by uAsleep 1.x.
-class BatteryUsageProfile {
+class BatteryUsageProfile extends Equatable {
   const BatteryUsageProfile({
     required this.batteryCapacity,
     required this.batteryCapacityUnit,
@@ -28,4 +30,18 @@ class BatteryUsageProfile {
   final double activeDuration;
   final TimeUnit activeDurationUnit;
   final double wakeupsPerHour;
+
+  @override
+  List<Object> get props => <Object>[
+    batteryCapacity,
+    batteryCapacityUnit,
+    activeCurrent,
+    activeCurrentUnit,
+    sleepEnabled,
+    sleepCurrent,
+    sleepCurrentUnit,
+    activeDuration,
+    activeDurationUnit,
+    wakeupsPerHour,
+  ];
 }
