@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/lib/assets/ic_launcher.png" alt="uAsleep app icon" width="112">
+  <img src="docs/brand/uasleep-banner.png" alt="uAsleep — Battery-life estimator for embedded systems and IoT" width="100%">
 </p>
 
 <h1 align="center">uAsleep</h1>
@@ -12,7 +12,7 @@
   <a href="https://github.com/import-tiago/uAsleep/actions/workflows/ci.yml"><img src="https://github.com/import-tiago/uAsleep/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
   <img src="https://img.shields.io/badge/Flutter-3.44.8-02569B?logo=flutter" alt="Flutter 3.44.8">
   <img src="https://img.shields.io/badge/Dart-3.12.2-0175C2?logo=dart" alt="Dart 3.12.2">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY--SA%204.0-8A2BE2" alt="CC BY-SA 4.0 license"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY--SA%204.0-0B2A4A" alt="CC BY-SA 4.0 license"></a>
 </p>
 
 uAsleep estimates the theoretical runtime of a battery-powered device from its

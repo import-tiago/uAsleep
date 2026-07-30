@@ -18,6 +18,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - New installations default to simple result precision and disabled sleep mode.
 - Calculation actions stack vertically when large accessibility fonts or
   narrow screens would make button labels wrap.
+- Reworked the complete visual identity around a navy-blue, electric-blue, and
+  cyan palette.
+- Replaced the app icon, native launch screens, in-app iconography, and
+  repository header artwork.
+- Made the neutral light theme the default, reserving navy and blue for brand
+  accents while keeping the navy dark theme optional.
+- Switched the native Android and iOS launch screens to a neutral light
+  background with a compact navy brand mark.
 
 ## [2.0.0+6] - 2026-07-30
 

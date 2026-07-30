@@ -43,7 +43,7 @@ class BatteryResultCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Icon(
-                            Icons.battery_charging_full_rounded,
+                            Icons.battery_full_rounded,
                             color: colors.onPrimaryContainer,
                           ),
                           const SizedBox(width: AppSpacing.small),
@@ -138,7 +138,7 @@ class _EmptyResult extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Icon(
-              Icons.battery_unknown_outlined,
+              Icons.battery_0_bar_rounded,
               size: 44,
               color: colors.secondary,
             ),

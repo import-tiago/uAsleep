@@ -102,7 +102,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           EngineeringSection(
-                            icon: Icons.battery_5_bar_rounded,
+                            icon: Icons.battery_6_bar_rounded,
                             title: l10n.batterySectionTitle,
                             description: l10n.batterySectionDescription,
                             children: <Widget>[
@@ -134,7 +134,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                           ),
                           const SizedBox(height: AppSpacing.medium),
                           EngineeringSection(
-                            icon: Icons.memory_rounded,
+                            icon: Icons.developer_board_outlined,
                             title: l10n.activeSectionTitle,
                             description: l10n.activeSectionDescription,
                             children: <Widget>[
@@ -180,7 +180,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                                     child: Column(
                                       children: <Widget>[
                                         EngineeringSection(
-                                          icon: Icons.bedtime_outlined,
+                                          icon: Icons.nightlight_round,
                                           title: l10n.sleepSectionTitle,
                                           description:
                                               l10n.sleepSectionDescription,
@@ -458,7 +458,7 @@ class _CalculatorActions extends StatelessWidget {
         final Widget calculate = FilledButton.icon(
           key: const Key('calculateButton'),
           onPressed: onCalculate,
-          icon: const Icon(Icons.bolt_rounded),
+          icon: const Icon(Icons.calculate_rounded),
           label: Text(
             l10n.calculateButton,
             maxLines: 1,

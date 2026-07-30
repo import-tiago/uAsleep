@@ -38,7 +38,7 @@ class LocalSettingsRepository implements SettingsRepository {
       },
       theme: AppThemePreference.values.firstWhere(
         (AppThemePreference value) => value.name == storedTheme,
-        orElse: () => AppThemePreference.system,
+        orElse: () => AppThemePreference.light,
       ),
     );
   }

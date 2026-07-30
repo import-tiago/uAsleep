@@ -159,7 +159,7 @@ class _HistoryCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Icon(Icons.battery_charging_full_rounded),
+              const Icon(Icons.battery_full_rounded),
               const SizedBox(width: AppSpacing.medium),
               Expanded(
                 child: Column(

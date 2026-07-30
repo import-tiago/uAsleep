@@ -6,7 +6,7 @@ class AppSettings extends Equatable {
   const AppSettings({
     this.localeTag,
     this.precision = 0,
-    this.theme = AppThemePreference.system,
+    this.theme = AppThemePreference.light,
   }) : assert(precision == 0 || precision == 2);
 
   /// Null means that the operating-system locale is followed.

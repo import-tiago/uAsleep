@@ -129,7 +129,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.tap(
-      find.byKey(const ValueKey<AppThemePreference>(AppThemePreference.system)),
+      find.byKey(const ValueKey<AppThemePreference>(AppThemePreference.light)),
     );
     await tester.pumpAndSettle();
     await tester.tap(find.text('Dark').last);
