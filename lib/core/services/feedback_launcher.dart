@@ -13,10 +13,10 @@ class MailtoFeedbackLauncher implements FeedbackLauncher {
 
   @override
   Future<bool> open({required String subject, required String body}) async {
-    final Uri uri = Uri(
-      scheme: 'mailto',
-      path: recipient,
-      queryParameters: <String, String>{'subject': subject, 'body': body},
+    final Uri uri = buildMailtoUri(
+      recipient: recipient,
+      subject: subject,
+      body: body,
     );
     try {
       return await launchUrl(uri);
@@ -24,4 +24,20 @@ class MailtoFeedbackLauncher implements FeedbackLauncher {
       return false;
     }
   }
+}
+
+Uri buildMailtoUri({
+  required String recipient,
+  required String subject,
+  required String body,
+}) {
+  final String query = <String, String>{'subject': subject, 'body': body}
+      .entries
+      .map((MapEntry<String, String> entry) {
+        return '${Uri.encodeComponent(entry.key)}='
+            '${Uri.encodeComponent(entry.value)}';
+      })
+      .join('&');
+
+  return Uri(scheme: 'mailto', path: recipient, query: query);
 }
