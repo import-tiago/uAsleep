@@ -1,0 +1,134 @@
+{
+  "@@locale": "pt",
+  "appTitle": "uAsleep",
+  "calculatorTitle": "Estimativa de autonomia",
+  "calculatorSubtitle": "Modele o ciclo de operação de um dispositivo embarcado ou IoT.",
+  "settingsTooltip": "Abrir configurações",
+  "batterySectionTitle": "Bateria",
+  "batterySectionDescription": "Informe a capacidade nominal da bateria.",
+  "batteryCapacityLabel": "Capacidade da bateria",
+  "activeSectionTitle": "Modo ativo",
+  "activeSectionDescription": "Corrente consumida enquanto o dispositivo está acordado.",
+  "activeCurrentLabel": "Corrente ativa",
+  "sleepModeTitle": "Usar modo sleep",
+  "sleepModeSubtitle": "Inclua na estimativa o período de baixo consumo.",
+  "sleepSectionTitle": "Modo sleep",
+  "sleepSectionDescription": "Corrente consumida entre os períodos ativos.",
+  "sleepCurrentLabel": "Corrente em sleep",
+  "cycleSectionTitle": "Ciclo de despertar",
+  "cycleSectionDescription": "Defina por quanto tempo e com que frequência o dispositivo desperta.",
+  "activeDurationLabel": "Duração ativa",
+  "wakeupsPerHourLabel": "Despertares por hora",
+  "calculateButton": "Calcular",
+  "resetButton": "Limpar",
+  "estimateNotice": "Esta é uma estimativa teórica. A autonomia real também depende de temperatura, envelhecimento, autodescarga, eficiência do regulador e transientes de carga.",
+  "resultTitle": "Autonomia estimada",
+  "resultEmptyTitle": "Pronto para calcular",
+  "resultEmptyDescription": "Preencha o perfil elétrico para visualizar a estimativa.",
+  "averageCurrentLabel": "Corrente média",
+  "dutyCycleLabel": "Ciclo ativo",
+  "averageCurrentValue": "{value} mA",
+  "@averageCurrentValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "percentageValue": "{value}%",
+  "@percentageValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "durationHours": "{count, plural, =1{{formatted} hora} other{{formatted} horas}}",
+  "@durationHours": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "durationDays": "{count, plural, =1{{formatted} dia} other{{formatted} dias}}",
+  "@durationDays": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "durationMonths": "{count, plural, =1{{formatted} mês} other{{formatted} meses}}",
+  "@durationMonths": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "durationYears": "{count, plural, =1{{formatted} ano} other{{formatted} anos}}",
+  "@durationYears": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "validationRequired": "Informe um valor.",
+  "validationInvalidNumber": "Informe um número válido.",
+  "validationNonFinite": "O valor deve ser finito.",
+  "validationMustBePositive": "Informe um valor maior que zero.",
+  "validationCannotBeNegative": "O valor não pode ser negativo.",
+  "validationActiveDurationTooLong": "A duração ativa não pode superar o ciclo completo de despertar.",
+  "validationZeroAverageCurrent": "A corrente média deve ser maior que zero.",
+  "validationUnrealistic": "Revise os valores: a escala resultante é incomum para um dispositivo embarcado típico.",
+  "settingsTitle": "Configurações",
+  "appearanceTitle": "Aparência",
+  "themeLabel": "Tema",
+  "themeSystem": "Seguir o sistema",
+  "themeLight": "Claro",
+  "themeDark": "Escuro",
+  "languageTitle": "Idioma",
+  "languageSystem": "Padrão do sistema",
+  "languageEnglish": "English",
+  "languagePortuguese": "Português (Brasil)",
+  "precisionTitle": "Precisão do resultado",
+  "precisionSimple": "Simples",
+  "precisionDetailed": "Detalhado",
+  "feedbackTitle": "Feedback",
+  "feedbackDescription": "Abra seu aplicativo de e-mail com uma mensagem endereçada ao desenvolvedor. Nada é enviado automaticamente.",
+  "feedbackButton": "Enviar feedback",
+  "feedbackSubject": "Feedback sobre o uAsleep",
+  "feedbackBody": "Olá,\n\nGostaria de compartilhar o seguinte feedback sobre o uAsleep:\n\n",
+  "feedbackUnavailable": "Não foi possível abrir um aplicativo de e-mail compatível.",
+  "aboutTitle": "Sobre",
+  "aboutDescription": "Estimativa de autonomia de código aberto para projetos embarcados e IoT.",
+  "appVersion": "Versão {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "softwareLicenses": "Licenças de código aberto",
+  "settingsLoadFailure": "Não foi possível carregar as configurações. Valores padrão seguros estão em uso.",
+  "settingsSaveFailure": "Não foi possível salvar a configuração.",
+  "routeNotFoundTitle": "Página não encontrada",
+  "routeNotFoundDescription": "A página solicitada não existe.",
+  "backToCalculator": "Voltar para a calculadora",
+  "loadingLabel": "Carregando"
+}

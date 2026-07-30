@@ -1,0 +1,137 @@
+{
+  "@@locale": "en",
+  "appTitle": "uAsleep",
+  "@appTitle": {
+    "description": "Product name."
+  },
+  "calculatorTitle": "Battery life estimator",
+  "calculatorSubtitle": "Model the duty cycle of an embedded or IoT device.",
+  "settingsTooltip": "Open settings",
+  "batterySectionTitle": "Battery",
+  "batterySectionDescription": "Enter the rated battery capacity.",
+  "batteryCapacityLabel": "Battery capacity",
+  "activeSectionTitle": "Active mode",
+  "activeSectionDescription": "Current drawn while the device is awake.",
+  "activeCurrentLabel": "Active current",
+  "sleepModeTitle": "Use sleep mode",
+  "sleepModeSubtitle": "Include the device's low-power time in the estimate.",
+  "sleepSectionTitle": "Sleep mode",
+  "sleepSectionDescription": "Current drawn between active periods.",
+  "sleepCurrentLabel": "Sleep current",
+  "cycleSectionTitle": "Wake cycle",
+  "cycleSectionDescription": "Describe how long and how often the device wakes.",
+  "activeDurationLabel": "Active duration",
+  "wakeupsPerHourLabel": "Wake-ups per hour",
+  "calculateButton": "Estimate battery life",
+  "resetButton": "Reset",
+  "estimateNotice": "This is a theoretical estimate. Real battery life also depends on temperature, aging, self-discharge, regulator efficiency, and load transients.",
+  "resultTitle": "Estimated autonomy",
+  "resultEmptyTitle": "Ready to calculate",
+  "resultEmptyDescription": "Complete the electrical profile to see the estimate.",
+  "averageCurrentLabel": "Average current",
+  "dutyCycleLabel": "Active duty cycle",
+  "averageCurrentValue": "{value} mA",
+  "@averageCurrentValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "percentageValue": "{value}%",
+  "@percentageValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "durationHours": "{count, plural, =1{{formatted} hour} other{{formatted} hours}}",
+  "@durationHours": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "durationDays": "{count, plural, =1{{formatted} day} other{{formatted} days}}",
+  "@durationDays": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "durationMonths": "{count, plural, =1{{formatted} month} other{{formatted} months}}",
+  "@durationMonths": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "durationYears": "{count, plural, =1{{formatted} year} other{{formatted} years}}",
+  "@durationYears": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "formatted": {
+        "type": "String"
+      }
+    }
+  },
+  "validationRequired": "Enter a value.",
+  "validationInvalidNumber": "Enter a valid number.",
+  "validationNonFinite": "The value must be finite.",
+  "validationMustBePositive": "Enter a value greater than zero.",
+  "validationCannotBeNegative": "The value cannot be negative.",
+  "validationActiveDurationTooLong": "Active duration cannot exceed the complete wake cycle.",
+  "validationZeroAverageCurrent": "Average current must be greater than zero.",
+  "validationUnrealistic": "Review these values: the resulting scale is unusual for a typical embedded device.",
+  "settingsTitle": "Settings",
+  "appearanceTitle": "Appearance",
+  "themeLabel": "Theme",
+  "themeSystem": "Follow system",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "languageTitle": "Language",
+  "languageSystem": "System default",
+  "languageEnglish": "English",
+  "languagePortuguese": "Português (Brasil)",
+  "precisionTitle": "Result precision",
+  "precisionSimple": "Simple",
+  "precisionDetailed": "Detailed",
+  "feedbackTitle": "Feedback",
+  "feedbackDescription": "Open your email app with a message addressed to the developer. Nothing is sent automatically.",
+  "feedbackButton": "Write feedback",
+  "feedbackSubject": "uAsleep feedback",
+  "feedbackBody": "Hello,\n\nI would like to share the following feedback about uAsleep:\n\n",
+  "feedbackUnavailable": "No compatible email app could be opened.",
+  "aboutTitle": "About",
+  "aboutDescription": "Open-source battery-life estimation for embedded and IoT projects.",
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "softwareLicenses": "Open-source licenses",
+  "settingsLoadFailure": "Settings could not be loaded. Safe defaults are in use.",
+  "settingsSaveFailure": "The setting could not be saved.",
+  "routeNotFoundTitle": "Page not found",
+  "routeNotFoundDescription": "The requested page does not exist.",
+  "backToCalculator": "Back to calculator",
+  "loadingLabel": "Loading"
+}
