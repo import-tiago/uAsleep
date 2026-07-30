@@ -1,27 +1,36 @@
 # Changelog
 
-## 2.0.0+6
+All notable changes to uAsleep are documented in this file.
 
-- Migração para Flutter 3.44.8, Dart 3.12.2 e sound null safety.
-- Nova arquitetura feature-first com `flutter_bloc`/Cubit e injeção por
-  construtor.
-- Remoção de `bloc_pattern`, RxDart, Singleton e estado global mutável.
-- Fórmula isolada em Dart puro, com unidades normalizadas e erros de domínio.
-- Validação de campos, números não finitos, ciclos impossíveis e corrente zero.
-- Material 3 responsivo, acessível e com temas claro, escuro e automático.
-- Internacionalização oficial por ARB/gen_l10n em inglês e português.
-- Preferências estruturadas com migração do formato 1.x.
-- Feedback por `mailto`, sem permissão ou envio silencioso.
-- Scaffolding Android/iOS regenerado; identificadores unificados em
-  `br.uasleep`.
-- Suítes unitária, de estado, widget e integração.
-- CI com formatação, análise, cobertura e build Android debug.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and the project follows [Semantic Versioning](https://semver.org/).
 
-### Mudanças incompatíveis
+## [2.0.0+6] - 2026-07-30
 
-- Android mínimo passou de API 21 para API 24, padrão suportado pelo Flutter
-  3.44.8.
-- iOS mínimo passou de 8.0 para 13.0.
-- A interface e o formato interno de persistência foram substituídos.
-- A versão foi elevada para 2.0.0; o build number 6 supera o código 5 usado
-  pela configuração Android legada.
+### Added
+
+- Feature-first architecture with `flutter_bloc` Cubits and constructor
+  injection.
+- Pure Dart battery-life calculation, typed units, and explicit domain errors.
+- Validation for missing, non-finite, negative, zero-current, and impossible
+  duty-cycle inputs.
+- Responsive Material 3 interface with light, dark, and system themes.
+- ARB-based English and Portuguese localization.
+- Structured preferences with one-time migration from the 1.x format.
+- Unit, Cubit, widget, persistence, and integration test suites.
+- GitHub Actions checks for formatting, analysis, tests, coverage, and Android
+  debug builds.
+
+### Changed
+
+- Migrated to Flutter 3.44.8, Dart 3.12.2, and sound null safety.
+- Replaced legacy global state, RxDart, `bloc_pattern`, and Singleton usage.
+- Replaced direct email sending with an explicit `mailto:` flow.
+- Regenerated Android and iOS scaffolding and standardized application
+  identifiers as `br.uasleep`.
+- Raised the Android minimum to API 24 and the iOS deployment target to 13.0.
+
+### Removed
+
+- Legacy JSON-in-JavaScript translations and obsolete dependencies.
+- Silent email permissions and unused generated build artifacts.

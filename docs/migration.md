@@ -1,29 +1,29 @@
-# Migração 1.x → 2.0
+# Migration from 1.x to 2.0
 
-## Referência inicial
+## Starting point
 
-O estado legado permanece recuperável no histórico Git, commit `1489f45`.
-Antes das alterações foram auditados todos os fontes Dart, ARBs antigos,
-manifests, Gradle, Xcode, assets, permissões, IDs e o lockfile.
+The legacy state remains available in Git history at commit `1489f45`. Before
+the migration, the Dart sources, translations, manifests, Gradle and Xcode
+projects, assets, permissions, identifiers, and lockfile were audited.
+Legacy interface captures are retained under `docs/images/legacy/`.
 
-Estado observado:
+The original project used:
 
-- Flutter 1.5.4-hotfix.2 e Dart 2.3.0.
-- Dart `>=2.1.0 <3.0.0`, sem null safety.
-- `bloc_pattern`, RxDart, Singleton e múltiplos estados globais mutáveis.
-- Persistência em `DataPersistence.txt`.
-- JSON de idioma com extensão `.js`.
-- Android API 21/28, Gradle 4.10.2 e AGP 3.2.1.
-- iOS 8.0 e bundle ID incorreto `com.example.uasleep`.
-- Teste padrão de contador sem relação com o produto.
+- Flutter 1.5.4-hotfix.2 and Dart 2.3.0;
+- Dart `>=2.1.0 <3.0.0` without null safety;
+- `bloc_pattern`, RxDart, Singleton, and mutable global state;
+- persistence in `DataPersistence.txt`;
+- JSON translations stored in files with a `.js` extension;
+- Android API 21/28, Gradle 4.10.2, and AGP 3.2.1;
+- iOS 8.0 and the placeholder bundle ID `com.example.uasleep`;
+- the default counter test, unrelated to the product.
 
-O código legado não pôde executar na toolchain atual: `flutter pub get` falhou
-porque Dart 3 exige null safety. A fórmula foi caracterizada diretamente do
-fonte antes da refatoração.
+The legacy source cannot run on the current toolchain because Dart 3 requires
+null safety. Its calculation behavior was characterized before refactoring.
 
-## Fórmula e correções
+## Formula and corrections
 
-A versão 1.x calculava, em uma janela de 3.600.000 ms:
+Version 1.x calculated over a 3,600,000 ms window:
 
 ```text
 activeTimePerHour = wakeupsPerHour × activeDuration
@@ -34,108 +34,100 @@ averageCurrent =
 batteryLifeHours = batteryCapacityMah / averageCurrentMa
 ```
 
-A versão 2.0 expressa a mesma relação por ciclo. Foram corrigidos:
+Version 2.0 expresses the same relationship per cycle. It also:
 
-- duração ativa maior que o período agora é rejeitada, em vez de produzir
-  tempo de sleep negativo;
-- capacidade zero/negativa, correntes negativas, frequência/duração não
-  positivas, NaN, infinito e corrente média zero são rejeitados;
-- resultados menores ou iguais a uma hora agora são exibidos;
-- cálculo e formatação foram separados;
-- unidade `ns`, listada apenas em uma condição morta no legado, não foi
-  mantida porque nunca aparecia na interface; `nA` continua suportado.
+- rejects active durations longer than a complete cycle instead of producing
+  negative sleep time;
+- rejects zero or negative capacity, negative current, non-positive frequency
+  or duration, NaN, infinity, and zero average current;
+- displays valid estimates of one hour or less;
+- separates calculation from presentation formatting;
+- removes the dead `ns` duration option while retaining `nA` current support.
 
-Testes documentam a equivalência para um perfil manual de ciclo de 60 s.
+Tests document equivalence for a manually verified 60-second duty cycle.
 
-## Dependências
+## Dependencies
 
-Removidas:
+Removed:
 
 - `bloc_pattern`
 - `rxdart`
 - `flutter_email_sender`
 - `cupertino_icons`
 
-Atualizadas/adicionadas:
+Added or updated:
 
-- `flutter_bloc` e `bloc_test`
+- `flutter_bloc` and `bloc_test`
 - `equatable`
 - `shared_preferences`
 - `url_launcher`
 - `package_info_plus`
-- `intl` e `flutter_localizations`
-- `path_provider`, restrito à migração de dados 1.x
-- `flutter_lints`, `flutter_launcher_icons` e `integration_test`
+- `intl` and `flutter_localizations`
+- `path_provider`, limited to one-time migration of 1.x data
+- `flutter_lints`, `flutter_launcher_icons`, and `integration_test`
 
-Dependências de runtime foram movidas para `dependencies`.
+Runtime packages now live under `dependencies`.
 
-## Persistência
+## Persistence
 
-Idioma, precisão e tema agora usam `SharedPreferencesAsync` por meio de
-`SettingsRepository`. Na primeira inicialização, o arquivo antigo é lido de
-forma tolerante, importado e marcado como migrado. Ausência ou corrupção não
-impedem o app de iniciar. O arquivo legado não é apagado.
+Language, precision, and theme preferences use `SharedPreferencesAsync`
+through `SettingsRepository`. On first startup, the old file is read
+tolerantly, imported, and marked as migrated. A missing or corrupt legacy file
+does not prevent startup, and the source file is never deleted.
 
 ## Android
 
-- Scaffolding regenerado pelo Flutter 3.44.8.
-- `namespace` e `applicationId`: `br.uasleep`.
-- compile/target SDK 36; minSdk 24.
-- Gradle 9.1.0, AGP 9.0.1 e Kotlin 2.3.20.
-- Bytecode Java/Kotlin 17; toolchain local JDK 21.
-- MainActivity em Kotlin com Flutter embedding atual.
-- Nome e ícone preservados.
-- Nenhuma permissão de produção adicionada.
-- Assinatura release lê `key.properties` apenas quando presente.
+- Scaffolding regenerated with Flutter 3.44.8.
+- `namespace` and `applicationId` standardized as `br.uasleep`.
+- Compile/target SDK 36 and minimum SDK 24.
+- Gradle 9.1.0, AGP 9.0.1, and Kotlin 2.3.20.
+- Java/Kotlin bytecode target 17.
+- Current Flutter embedding with a Kotlin `MainActivity`.
+- Product name and icon preserved.
+- No production permissions added.
+- Release signing reads `key.properties` only when it exists.
 
-O minSdk 21 foi elevado porque o Flutter 3.44.8 usa API 24 como mínimo padrão
-suportado e já sinaliza versões inferiores.
+The minimum SDK was raised because API 24 is the minimum supported by the
+current Flutter template.
 
 ## iOS
 
-- Scaffolding Swift atual com AppDelegate/SceneDelegate.
-- Bundle ID corrigido e preservado como `br.uasleep`.
-- Deployment target 13.0, mínimo do template atual.
-- Nome e ícone preservados.
-- Nenhuma descrição de permissão desnecessária.
+- Current Swift scaffolding with `AppDelegate` and `SceneDelegate`.
+- Bundle identifier corrected to `br.uasleep`.
+- Deployment target raised to iOS 13.0.
+- Product name and icon preserved.
+- No unnecessary permission descriptions.
 
-O projeto foi atualizado estruturalmente no Windows. Build, assinatura e
-execução iOS ainda precisam ser confirmados em macOS/Xcode.
+The project was modernized on Windows. iOS compilation, signing, and runtime
+validation still require macOS and Xcode.
 
-## UI, acessibilidade e localização
+## UI, accessibility, and localization
 
-A interface foi refeita em Material 3 com tokens de tema e espaçamento,
-largura limitada, layouts adaptativos, SafeArea, scroll, temas claro/escuro,
-texto ampliado, mensagens textuais de erro e resultado anunciado como região
-semântica. A navegação usa o Navigator do Flutter.
+The interface was rebuilt with Material 3, centralized theme and spacing
+tokens, constrained widths, adaptive layouts, `SafeArea`, scrolling, light and
+dark themes, large-text support, textual validation, and semantic result
+announcements.
 
-Arquivos JSON `.js` foram substituídos por ARB/gen_l10n. Inglês é fallback,
-português tem base `pt` e seleção `pt_BR`; mudanças são imediatas.
+Legacy translation files were replaced with ARB and `gen_l10n`. English is the
+fallback locale; Portuguese has a generic `pt` base and an explicit `pt_BR`
+selection. Locale changes apply immediately.
 
-## Versionamento
+## Versioning
 
-Foi adotado `2.0.0+6`. O major sinaliza mudanças visuais, arquiteturais,
-requisitos mínimos e persistência. O build 6 supera o `versionCode` 5 forçado
-no Gradle legado, evitando regressão em atualizações de loja.
+Version `2.0.0+6` represents visual, architectural, persistence, and minimum
+platform changes. Build number 6 is greater than the version code 5 forced by
+the old Android configuration, preventing store-update regression.
 
-## Validação executada
+## Migration validation
 
-Resultados no host da migração:
+The migration host validated:
 
-- `dart format --output=none --set-exit-if-changed .`: passou.
-- `flutter analyze`: passou sem diagnósticos.
-- `flutter test --coverage`: 54/54 testes; cobertura de aplicação 88,15%
-  (`848/962`) após excluir somente arquivos gerados por `gen_l10n`; LCOV bruto
-  77,73% (`984/1266`).
-- lógica matemática, seleção de escala e conversões: 100% de cobertura.
-- Cubits: 93,08% de cobertura conjunta.
-- `flutter test integration_test -d emulator-5554`: passou em AVD API 36.
-- `flutter build apk --debug`: passou.
-- `flutter build appbundle`: passou; AAB intencionalmente não assinado por
-  ausência de credenciais locais.
-- `flutter pub outdated`: todas as dependências estão nas versões mais novas
-  resolvíveis; `intl 0.20.2` é fixado pelo SDK Flutter.
+- formatting and static analysis;
+- unit, Cubit, widget, persistence, and integration tests;
+- coverage for calculation, formatting, conversion, and state logic;
+- an Android API 36 emulator flow;
+- Android debug APK and release app bundle builds.
 
-- Android foi analisado, testado em emulador e compilado.
-- iOS não pôde ser compilado por ausência de macOS/Xcode.
-- Web não faz parte das plataformas do projeto.
+The release app bundle was intentionally unsigned because no local publishing
+credentials were supplied. iOS could not be compiled without macOS/Xcode. Web
+is not a target platform for this project.

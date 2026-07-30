@@ -1,3 +1,11 @@
-special-vendored-path/* linguist-vendored
-android/* linguist-vendored=true
-ios/* linguist-vendored=true
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.jar binary
+
+android/** linguist-vendored
+ios/** linguist-vendored
+lib/l10n/app_localizations*.dart linguist-generated

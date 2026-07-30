@@ -1,31 +1,42 @@
-# uAsleep
+<p align="center">
+  <img src="lib/assets/ic_launcher.png" alt="uAsleep app icon" width="112">
+</p>
 
-Aplicativo Flutter para estimar a autonomia teórica de baterias em sistemas
-embarcados e dispositivos IoT, com ou sem modo sleep.
+<h1 align="center">uAsleep</h1>
 
-## Funcionalidades
+<p align="center">
+  A focused battery-life estimator for embedded systems and IoT devices.
+</p>
 
-- Capacidade em mAh ou Ah.
-- Corrente ativa e de sleep em nA, µA, mA ou A.
-- Duração ativa em µs, ms, s, min ou h.
-- Frequência em despertares por hora.
-- Corrente média, ciclo ativo e autonomia em escala humana.
-- Validação localizada e suporte a separadores `,` e `.`.
-- Inglês, português brasileiro e idioma do sistema.
-- Temas claro, escuro e automático.
-- Precisão simples ou detalhada.
-- Preferências persistidas e migração única do arquivo usado pelo uAsleep 1.x.
-- Feedback por `mailto`, sem envio silencioso ou coleta de dados.
+<p align="center">
+  <a href="https://github.com/import-tiago/uAsleep/actions/workflows/ci.yml"><img src="https://github.com/import-tiago/uAsleep/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <img src="https://img.shields.io/badge/Flutter-3.44.8-02569B?logo=flutter" alt="Flutter 3.44.8">
+  <img src="https://img.shields.io/badge/Dart-3.12.2-0175C2?logo=dart" alt="Dart 3.12.2">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY--SA%204.0-8A2BE2" alt="CC BY-SA 4.0 license"></a>
+</p>
 
-## Capturas de tela
+uAsleep estimates the theoretical runtime of a battery-powered device from its
+capacity, active current, sleep current, wake duration, and wake frequency. It
+is designed for quick engineering estimates while keeping assumptions and
+limitations explicit.
 
-> Espaço reservado: capture as telas da versão 2.0 em Android e iOS e adicione
-> os arquivos a `docs/images/`. As imagens antigas permanecem em
-> `lib/Printscreens/` apenas como referência histórica.
+## Highlights
 
-## Modelo matemático
+- Battery capacity in `mAh` or `Ah`.
+- Active and sleep current in `nA`, `µA`, `mA`, or `A`.
+- Active duration in `µs`, `ms`, `s`, `min`, or `h`.
+- Optional sleep-mode duty-cycle calculation.
+- Average current, active duty cycle, and human-readable battery life.
+- Localized validation with both comma and dot decimal separators.
+- English, Brazilian Portuguese, and system-language modes.
+- Light, dark, and system themes.
+- Persistent language, theme, and precision preferences.
+- No analytics, tracking, accounts, or network-based calculation.
 
-O cálculo usa mAh, mA e horas como unidades internas. Com sleep:
+## How the estimate works
+
+Internally, values are normalized to milliampere-hours, milliamperes, and
+hours. When sleep mode is enabled:
 
 ```text
 cycleDuration = 1 hour / wakeupsPerHour
@@ -39,118 +50,126 @@ averageCurrent =
 batteryLifeHours = batteryCapacityMah / averageCurrentMa
 ```
 
-Sem sleep, a corrente ativa é considerada contínua. Essa formulação é
-algebricamente equivalente à janela de uma hora usada na versão 1.x, mas agora
-impede duração ativa maior que o ciclo, divisão por zero, valores negativos,
-NaN e infinito.
+Without sleep mode, active current is treated as continuous.
 
-O resultado é idealizado. Não considera autodescarga, envelhecimento,
-temperatura, curva de descarga, eficiência de reguladores nem transientes.
+> [!IMPORTANT]
+> This is an idealized estimate. Real battery life also depends on
+> self-discharge, temperature, aging, discharge curves, regulator efficiency,
+> and load transients.
 
-## Ambiente
+## Requirements
 
-- Flutter `3.44.8` stable
-- Dart `3.12.2`
-- Android SDK `36`, minSdk `24`, Java/Kotlin target `17`
-- iOS deployment target `13.0`
+| Tool | Version |
+| --- | --- |
+| Flutter | `3.44.8` stable |
+| Dart | `3.12.2` |
+| Java | `17` or newer |
+| Android | SDK `36`, min SDK `24` |
+| iOS | `13.0` or newer |
 
-Confira a instalação:
+Verify your local setup:
 
 ```shell
 flutter doctor -v
-flutter pub get
 ```
 
-## Execução
+## Getting started
 
 ```shell
+git clone https://github.com/import-tiago/uAsleep.git
+cd uAsleep
+flutter pub get
 flutter run
 ```
 
-## Qualidade e testes
+Use `flutter devices` to list available targets. Android development works on
+Windows, macOS, and Linux. Building for iOS requires macOS and Xcode.
+
+## Quality checks
+
+Run the same checks used by CI before opening a pull request:
 
 ```shell
-dart format --output=none --set-exit-if-changed .
+dart format --output=none --set-exit-if-changed lib test integration_test
 flutter analyze
 flutter test
-flutter test --coverage
 flutter test integration_test
+flutter build apk --debug
 ```
 
-A suíte cobre domínio, conversões, validação, Cubits, persistência, migração,
-widgets responsivos e um fluxo integrado. A CI repete análise, cobertura e
-build Android a cada push e pull request.
+To generate a local coverage report:
 
-Cobertura medida na migração: **88,15%** (`848/962` linhas) no código da
-aplicação, excluindo somente os arquivos Dart gerados por `gen_l10n`. O LCOV
-bruto, incluindo esse código regional duplicado, registra 77,73% (`984/1266`).
-A fórmula, o formatador de duração, o parser numérico e todas as conversões de
-unidade têm 100%; os Cubits têm 93,08% em conjunto.
+```shell
+flutter test --coverage
+```
 
-## Builds
+## Project structure
+
+```text
+lib/
+├── app/                    # Bootstrap, routing, MaterialApp, and theme
+├── core/                   # Shared validation and platform adapters
+├── features/
+│   ├── calculator/
+│   │   ├── domain/         # Pure Dart entities, units, and calculation rules
+│   │   └── presentation/   # Cubit, page, and reusable widgets
+│   └── settings/
+│       ├── data/           # Local persistence and legacy migration
+│       ├── domain/         # Settings entity and repository contract
+│       └── presentation/   # Cubit and settings page
+├── l10n/                   # ARB sources and generated localization classes
+└── main.dart               # Application entry point
+
+test/                       # Unit, state, widget, and adapter tests
+integration_test/           # End-to-end application flow
+docs/                       # Architecture and migration notes
+.github/                    # CI, Dependabot, and collaboration templates
+```
+
+The codebase follows a feature-first structure. UI widgets delegate state to
+Cubits, while calculation rules remain in a Flutter-independent domain layer.
+See [Architecture](docs/architecture.md) for the dependency model and
+[Migration notes](docs/migration.md) for the 1.x to 2.0 modernization.
+
+## Localization
+
+Source messages live in `lib/l10n/*.arb`. To add a locale:
+
+1. Copy `app_en.arb` to `app_<locale>.arb`.
+2. Translate every message while preserving placeholders.
+3. Run `flutter gen-l10n`.
+4. Add the locale to the settings UI when explicit selection is required.
+5. Add localization tests.
+
+English is the fallback locale. Portuguese uses a generic `pt` base with a
+`pt_BR` specialization.
+
+## Building releases
 
 Android:
 
 ```shell
-flutter build apk --debug
 flutter build appbundle
 ```
 
-O build release procura `android/key.properties`, que é ignorado pelo Git. Sem
-esse arquivo, o artefato release é gerado sem configuração de assinatura para
-publicação. Nunca versione keystores ou senhas.
+Release signing is read from `android/key.properties` when available. That
+file, keystores, credentials, and environment files are intentionally ignored
+and must never be committed.
 
-iOS, em macOS com Xcode:
+iOS, on macOS:
 
 ```shell
 flutter build ios --no-codesign
 ```
 
-O scaffolding iOS foi atualizado estruturalmente neste repositório, mas não
-pode ser compilado no host Windows usado na migração.
+## Contributing and security
 
-## Estrutura
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[Code of Conduct](CODE_OF_CONDUCT.md) before opening a pull request. Please
+report vulnerabilities according to [SECURITY.md](SECURITY.md), not through a
+public issue.
 
-```text
-lib/
-├── app/                    # bootstrap, MaterialApp, rotas e tema
-├── core/                   # parsing e adaptadores compartilhados
-├── features/
-│   ├── calculator/
-│   │   ├── domain/         # fórmula, entidades e unidades Dart puras
-│   │   └── presentation/   # Cubit, página e widgets
-│   └── settings/
-│       ├── data/           # shared_preferences e migração legada
-│       ├── domain/         # entidade e contrato do repositório
-│       └── presentation/   # Cubit e página
-└── l10n/                   # ARB e código gerado pelo gen_l10n
-```
+## License
 
-As decisões estão detalhadas em [docs/architecture.md](docs/architecture.md) e
-o histórico em [docs/migration.md](docs/migration.md).
-
-## Internacionalização
-
-Os textos ficam em `lib/l10n/*.arb`. Para adicionar um idioma:
-
-1. Copie `app_en.arb` para `app_<locale>.arb`.
-2. Traduza todas as mensagens, preservando placeholders.
-3. Execute `flutter gen-l10n`.
-4. Adicione a opção de seleção à tela de configurações, quando aplicável.
-5. Adicione testes do locale.
-
-`en` é o fallback seguro. `pt` é a base linguística de `pt_BR`.
-
-## Persistência e tema
-
-`SettingsRepository` separa o domínio do armazenamento.
-`LocalSettingsRepository` usa `SharedPreferencesAsync`; `path_provider` existe
-somente para ler uma vez o arquivo `DataPersistence.txt` da versão 1.x.
-
-O design system está em `lib/app/theme/`. Altere as cores em `AppTheme` e os
-tokens de layout em `AppSpacing`, mantendo contraste e testes responsivos.
-
-## Licença
-
-O projeto original foi publicado sob
-[Creative Commons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+uAsleep is licensed under the
+[Creative Commons Attribution-ShareAlike 4.0 International License](LICENSE).
