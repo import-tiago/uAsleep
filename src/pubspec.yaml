@@ -1,7 +1,7 @@
 name: uasleep
 description: Battery-life estimator for embedded and IoT devices.
 publish_to: none
-version: 2.0.0+6
+version: 2.1.0+7
 homepage: https://github.com/import-tiago/uAsleep
 repository: https://github.com/import-tiago/uAsleep
 issue_tracker: https://github.com/import-tiago/uAsleep/issues
@@ -35,12 +35,13 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
-  assets:
-    - lib/assets/ic_launcher.png
 
 flutter_launcher_icons:
   android: ic_launcher
   ios: true
-  image_path: lib/assets/ic_launcher.png
+  image_path: assets/branding/app_icon.png
+  adaptive_icon_background: "#071A33"
+  adaptive_icon_foreground: assets/branding/app_icon.png
+  adaptive_icon_foreground_inset: 20
   min_sdk_android: 21
   remove_alpha_ios: true

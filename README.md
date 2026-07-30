@@ -166,7 +166,7 @@ flutter build ios --no-codesign
 ## Download
 
 The current signed Android release is available at
-[uAsleep 2.0.0+6](release/uAsleep-2.0.0+6-android-release.apk). Its integrity
+[uAsleep 2.1.0+7](release/uAsleep-2.1.0+7-android-release.apk). Its integrity
 can be checked against [SHA256SUMS.txt](release/SHA256SUMS.txt).
 
 ## Contributing and security

@@ -78,7 +78,7 @@ class _StaticAppInfoProvider implements AppInfoProvider {
   const _StaticAppInfoProvider();
 
   @override
-  Future<String> version() async => '2.0.0+6';
+  Future<String> version() async => '2.1.0+7';
 }
 
 class _NoopResultExporter implements ResultExporter {

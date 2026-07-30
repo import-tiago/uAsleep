@@ -19,8 +19,16 @@ accents. Purple and magenta are not part of the brand palette.
 
 ## Assets
 
-- App icon source: `src/lib/assets/ic_launcher.png`
+- App icon source: `src/assets/branding/app_icon.png`
 - Repository banner: `docs/brand/uasleep-banner.png`
+- Android splash marks: `src/android/app/src/main/res/mipmap-*/launch_image.png`
+- iOS splash marks: `src/ios/Runner/Assets.xcassets/SplashMark.imageset`
+- Dynamic iOS splash background:
+  `src/ios/Runner/Assets.xcassets/SplashBackground.colorset`
 
 Platform-specific Android and iOS icon sizes are generated from the app icon
 source with `flutter_launcher_icons`.
+
+The native splash uses the neutral `#F8FAFC` background in every
+operating-system appearance. Flutter theme preferences are loaded only after
+the native launch screen has finished.

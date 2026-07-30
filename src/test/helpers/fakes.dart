@@ -92,7 +92,7 @@ class FakeFeedbackLauncher implements FeedbackLauncher {
 }
 
 class FakeAppInfoProvider implements AppInfoProvider {
-  const FakeAppInfoProvider([this.value = '2.0.0+6']);
+  const FakeAppInfoProvider([this.value = '2.1.0+7']);
 
   final String value;
 

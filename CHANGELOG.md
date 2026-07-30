@@ -7,6 +7,8 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.0+7] - 2026-07-30
+
 ### Added
 
 - Persistent on-device history for the 50 most recent calculations.
@@ -26,6 +28,9 @@ and the project follows [Semantic Versioning](https://semver.org/).
   accents while keeping the navy dark theme optional.
 - Switched the native Android and iOS launch screens to a neutral light
   background with a compact navy brand mark.
+- Standardized the native Android and iOS splash on a light background because
+  app-specific Flutter theme preferences are unavailable before the first
+  Flutter frame.
 
 ## [2.0.0+6] - 2026-07-30
 
