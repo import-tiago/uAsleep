@@ -311,6 +311,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get softwareLicenses => 'Open-source licenses';
 
   @override
+  String get privacyPolicy => 'Privacy policy';
+
+  @override
+  String get privacyPolicyUnavailable =>
+      'The privacy policy could not be opened.';
+
+  @override
   String get settingsLoadFailure =>
       'Settings could not be loaded. Safe defaults are in use.';
 

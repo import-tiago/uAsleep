@@ -147,6 +147,8 @@
     }
   },
   "softwareLicenses": "Open-source licenses",
+  "privacyPolicy": "Privacy policy",
+  "privacyPolicyUnavailable": "The privacy policy could not be opened.",
   "settingsLoadFailure": "Settings could not be loaded. Safe defaults are in use.",
   "settingsSaveFailure": "The setting could not be saved.",
   "routeNotFoundTitle": "Page not found",

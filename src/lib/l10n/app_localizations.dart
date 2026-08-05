@@ -597,6 +597,18 @@ abstract class AppLocalizations {
   /// **'Open-source licenses'**
   String get softwareLicenses;
 
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyPolicyUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The privacy policy could not be opened.'**
+  String get privacyPolicyUnavailable;
+
   /// No description provided for @settingsLoadFailure.
   ///
   /// In en, this message translates to:

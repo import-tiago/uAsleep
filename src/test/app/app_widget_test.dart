@@ -157,6 +157,17 @@ void main() {
     );
   });
 
+  testWidgets('exposes the privacy policy from settings', (
+    WidgetTester tester,
+  ) async {
+    await pumpApp(tester);
+    await tester.tap(find.byKey(const Key('settingsButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('privacyPolicyButton')), findsOneWidget);
+    expect(find.text('Privacy policy'), findsOneWidget);
+  });
+
   testWidgets('does not overflow on a small screen with large text', (
     WidgetTester tester,
   ) async {

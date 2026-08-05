@@ -144,6 +144,8 @@
     }
   },
   "softwareLicenses": "Licenças de código aberto",
+  "privacyPolicy": "Política de privacidade",
+  "privacyPolicyUnavailable": "Não foi possível abrir a política de privacidade.",
   "settingsLoadFailure": "Não foi possível carregar as configurações. Valores padrão seguros estão em uso.",
   "settingsSaveFailure": "Não foi possível salvar a configuração.",
   "routeNotFoundTitle": "Página não encontrada",

@@ -136,6 +136,7 @@ class LocalCalculationHistoryRepository
   }
 
   Map<String, Object> _entryToJson(CalculationHistoryEntry entry) {
+    
     final BatteryUsageProfile profile = entry.profile;
     final BatteryLifeResult result = entry.result;
     return <String, Object>{

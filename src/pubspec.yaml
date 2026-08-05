@@ -1,7 +1,7 @@
 name: uasleep
 description: Battery-life estimator for embedded and IoT devices.
 publish_to: none
-version: 2.1.0+7
+version: 2.1.0+9
 homepage: https://github.com/import-tiago/uAsleep
 repository: https://github.com/import-tiago/uAsleep
 issue_tracker: https://github.com/import-tiago/uAsleep/issues

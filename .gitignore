@@ -47,6 +47,7 @@ Desktop.ini
 /src/android/local.properties
 /src/android/**/*.jks
 /src/android/**/*.keystore
+/src/android/*-upload-certificate.pem
 
 # iOS local and generated files
 /src/ios/Flutter/Generated.xcconfig

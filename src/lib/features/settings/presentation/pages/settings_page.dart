@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../core/services/app_info_provider.dart';
@@ -24,6 +25,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  static final Uri _privacyPolicyUri = Uri.parse(
+    'https://raw.githubusercontent.com/import-tiago/uAsleep/main/PRIVACY.md',
+  );
+
   late final Future<String> _version = widget.appInfoProvider.version();
 
   @override
@@ -201,10 +206,22 @@ class _SettingsPageState extends State<SettingsPage> {
                           const SizedBox(height: AppSpacing.medium),
                           Align(
                             alignment: AlignmentDirectional.centerStart,
-                            child: TextButton.icon(
-                              onPressed: _showLicenses,
-                              icon: const Icon(Icons.description_outlined),
-                              label: Text(l10n.softwareLicenses),
+                            child: Wrap(
+                              spacing: AppSpacing.small,
+                              runSpacing: AppSpacing.small,
+                              children: <Widget>[
+                                TextButton.icon(
+                                  key: const Key('privacyPolicyButton'),
+                                  onPressed: _openPrivacyPolicy,
+                                  icon: const Icon(Icons.privacy_tip_outlined),
+                                  label: Text(l10n.privacyPolicy),
+                                ),
+                                TextButton.icon(
+                                  onPressed: _showLicenses,
+                                  icon: const Icon(Icons.description_outlined),
+                                  label: Text(l10n.softwareLicenses),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -244,6 +261,31 @@ class _SettingsPageState extends State<SettingsPage> {
       applicationName: l10n.appTitle,
       applicationVersion: version,
     );
+  }
+
+  Future<void> _openPrivacyPolicy() async {
+    final bool opened;
+    try {
+      opened = await launchUrl(
+        _privacyPolicyUri,
+        mode: LaunchMode.externalApplication,
+      );
+    } on Object {
+      if (mounted) {
+        _showPrivacyPolicyUnavailable();
+      }
+      return;
+    }
+    if (!opened && mounted) {
+      _showPrivacyPolicyUnavailable();
+    }
+  }
+
+  void _showPrivacyPolicyUnavailable() {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.privacyPolicyUnavailable)));
   }
 
   String _themeLabel(AppLocalizations l10n, AppThemePreference preference) {

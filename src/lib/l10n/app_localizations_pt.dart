@@ -314,6 +314,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get softwareLicenses => 'Licenças de código aberto';
 
   @override
+  String get privacyPolicy => 'Política de privacidade';
+
+  @override
+  String get privacyPolicyUnavailable =>
+      'Não foi possível abrir a política de privacidade.';
+
+  @override
   String get settingsLoadFailure =>
       'Não foi possível carregar as configurações. Valores padrão seguros estão em uso.';
 
@@ -641,6 +648,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get softwareLicenses => 'Licenças de código aberto';
+
+  @override
+  String get privacyPolicy => 'Política de privacidade';
+
+  @override
+  String get privacyPolicyUnavailable =>
+      'Não foi possível abrir a política de privacidade.';
 
   @override
   String get settingsLoadFailure =>
