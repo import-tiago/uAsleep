@@ -18,6 +18,9 @@ class BatteryUsageProfile extends Equatable {
     this.activeDuration = 1,
     this.activeDurationUnit = TimeUnit.second,
     this.wakeupsPerHour = 1,
+    this.monitoringEnabled = false,
+    this.monitoringPeriod = 1,
+    this.monitoringPeriodUnit = MonitoringPeriodUnit.hour,
   });
 
   final double batteryCapacity;
@@ -30,6 +33,9 @@ class BatteryUsageProfile extends Equatable {
   final double activeDuration;
   final TimeUnit activeDurationUnit;
   final double wakeupsPerHour;
+  final bool monitoringEnabled;
+  final double monitoringPeriod;
+  final MonitoringPeriodUnit monitoringPeriodUnit;
 
   @override
   List<Object> get props => <Object>[
@@ -43,5 +49,8 @@ class BatteryUsageProfile extends Equatable {
     activeDuration,
     activeDurationUnit,
     wakeupsPerHour,
+    monitoringEnabled,
+    monitoringPeriod,
+    monitoringPeriodUnit,
   ];
 }

@@ -73,6 +73,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wakeupsPerHourLabel => 'Wake-ups per hour';
 
   @override
+  String get monitoringModeTitle => 'Project consumption by period';
+
+  @override
+  String get monitoringModeSubtitle =>
+      'Estimate the charge used over a chosen period.';
+
+  @override
+  String get monitoringSectionTitle => 'Monitoring period';
+
+  @override
+  String get monitoringSectionDescription =>
+      'Choose how long the device operates under these conditions.';
+
+  @override
+  String get monitoringPeriodLabel => 'Period';
+
+  @override
+  String get monitoringUnitHours => 'h';
+
+  @override
+  String get monitoringUnitDays => 'days';
+
+  @override
+  String get monitoringUnitWeeks => 'weeks';
+
+  @override
   String get calculateButton => 'Calculate';
 
   @override
@@ -121,6 +147,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dutyCycleLabel => 'Active duty cycle';
+
+  @override
+  String get monitoredConsumptionLabel => 'Consumption in period';
+
+  @override
+  String get monitoredCapacityLabel => 'Battery capacity used';
+
+  @override
+  String consumptionValue(String value) {
+    return '$value mAh';
+  }
 
   @override
   String averageCurrentValue(String value) {

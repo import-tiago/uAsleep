@@ -12,6 +12,7 @@ enum CalculatorField {
   sleepCurrent,
   activeDuration,
   wakeupsPerHour,
+  monitoringPeriod,
   form,
 }
 
@@ -50,6 +51,9 @@ class CalculatorState extends Equatable {
     this.activeDuration = '',
     this.activeDurationUnit = TimeUnit.second,
     this.wakeupsPerHour = '',
+    this.monitoringEnabled = false,
+    this.monitoringPeriod = '',
+    this.monitoringPeriodUnit = MonitoringPeriodUnit.hour,
     this.result,
     this.profile,
     this.issues = const <CalculatorIssue>[],
@@ -67,6 +71,9 @@ class CalculatorState extends Equatable {
   final String activeDuration;
   final TimeUnit activeDurationUnit;
   final String wakeupsPerHour;
+  final bool monitoringEnabled;
+  final String monitoringPeriod;
+  final MonitoringPeriodUnit monitoringPeriodUnit;
   final BatteryLifeResult? result;
   final BatteryUsageProfile? profile;
   final List<CalculatorIssue> issues;
@@ -93,6 +100,9 @@ class CalculatorState extends Equatable {
     String? activeDuration,
     TimeUnit? activeDurationUnit,
     String? wakeupsPerHour,
+    bool? monitoringEnabled,
+    String? monitoringPeriod,
+    MonitoringPeriodUnit? monitoringPeriodUnit,
     BatteryLifeResult? result,
     BatteryUsageProfile? profile,
     bool clearResult = false,
@@ -111,6 +121,9 @@ class CalculatorState extends Equatable {
       activeDuration: activeDuration ?? this.activeDuration,
       activeDurationUnit: activeDurationUnit ?? this.activeDurationUnit,
       wakeupsPerHour: wakeupsPerHour ?? this.wakeupsPerHour,
+      monitoringEnabled: monitoringEnabled ?? this.monitoringEnabled,
+      monitoringPeriod: monitoringPeriod ?? this.monitoringPeriod,
+      monitoringPeriodUnit: monitoringPeriodUnit ?? this.monitoringPeriodUnit,
       result: clearResult ? null : result ?? this.result,
       profile: clearResult ? null : profile ?? this.profile,
       issues: issues ?? this.issues,
@@ -131,6 +144,9 @@ class CalculatorState extends Equatable {
     activeDuration,
     activeDurationUnit,
     wakeupsPerHour,
+    monitoringEnabled,
+    monitoringPeriod,
+    monitoringPeriodUnit,
     result,
     profile,
     issues,

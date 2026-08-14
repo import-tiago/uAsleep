@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/battery_life_result.dart';
 import '../../domain/entities/battery_usage_profile.dart';
 import '../../domain/services/battery_life_formatter.dart';
+import '../../domain/value_objects/measurement_units.dart';
 
 class CalculationPresentationFormatter {
   const CalculationPresentationFormatter();
@@ -64,6 +65,12 @@ class CalculationPresentationFormatter {
           '${l10n.averageCurrentValue(number(context, result.averageCurrentMilliamperes, inputDigits))}',
       '${l10n.dutyCycleLabel}: '
           '${l10n.percentageValue(number(context, result.activeDutyCycle * 100, precision))}',
+      if (result.monitoredConsumptionMilliampereHours case final value?)
+        '${l10n.monitoredConsumptionLabel}: '
+            '${l10n.consumptionValue(number(context, value, inputDigits))}',
+      if (result.monitoredCapacityPercentage case final value?)
+        '${l10n.monitoredCapacityLabel}: '
+            '${l10n.percentageValue(number(context, value, precision))}',
       '',
       '${l10n.batteryCapacityLabel}: '
           '${number(context, profile.batteryCapacity, inputDigits)} '
@@ -87,11 +94,26 @@ class CalculationPresentationFormatter {
             '${number(context, profile.wakeupsPerHour, inputDigits)}',
       ]);
     }
+    if (profile.monitoringEnabled) {
+      lines.add(
+        '${l10n.monitoringPeriodLabel}: '
+        '${number(context, profile.monitoringPeriod, inputDigits)} '
+        '${_monitoringUnit(l10n, profile.monitoringPeriodUnit)}',
+      );
+    }
     if (createdAt != null) {
       lines
         ..add('')
         ..add('${l10n.generatedAtLabel}: ${dateTime(context, createdAt)}');
     }
     return lines.join('\n');
+  }
+
+  String _monitoringUnit(AppLocalizations l10n, MonitoringPeriodUnit unit) {
+    return switch (unit) {
+      MonitoringPeriodUnit.hour => l10n.monitoringUnitHours,
+      MonitoringPeriodUnit.day => l10n.monitoringUnitDays,
+      MonitoringPeriodUnit.week => l10n.monitoringUnitWeeks,
+    };
   }
 }

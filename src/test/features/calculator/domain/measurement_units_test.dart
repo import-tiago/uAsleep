@@ -27,4 +27,12 @@ void main() {
       expect(TimeUnit.hour.toHours(1), 1);
     });
   });
+
+  group('MonitoringPeriodUnit', () {
+    test('normalizes hours, days, and weeks to hours', () {
+      expect(MonitoringPeriodUnit.hour.toHours(8), 8);
+      expect(MonitoringPeriodUnit.day.toHours(1), 24);
+      expect(MonitoringPeriodUnit.week.toHours(1), 168);
+    });
+  });
 }

@@ -80,6 +80,27 @@ void main() {
     expect(find.byKey(const Key('resultDuration')), findsNothing);
   });
 
+  testWidgets('projects consumption over an eight-hour period', (
+    WidgetTester tester,
+  ) async {
+    await pumpApp(tester);
+    await enter(tester, const Key('capacityField'), '1000');
+    await enter(tester, const Key('activeCurrentField'), '100');
+    await tester.ensureVisible(find.byKey(const Key('monitoringModeSwitch')));
+    await tester.tap(find.byKey(const Key('monitoringModeSwitch')));
+    await tester.pumpAndSettle();
+    await enter(tester, const Key('monitoringPeriodField'), '8');
+
+    await tester.ensureVisible(find.byKey(const Key('calculateButton')));
+    await tester.tap(find.byKey(const Key('calculateButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Consumption in period'), findsOneWidget);
+    expect(find.text('800.00 mAh'), findsOneWidget);
+    expect(find.text('Battery capacity used'), findsOneWidget);
+    expect(find.text('80%'), findsOneWidget);
+  });
+
   testWidgets('resets entered fields and output', (WidgetTester tester) async {
     await pumpApp(tester);
     await enter(tester, const Key('capacityField'), '1000');

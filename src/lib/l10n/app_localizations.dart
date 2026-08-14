@@ -219,6 +219,54 @@ abstract class AppLocalizations {
   /// **'Wake-ups per hour'**
   String get wakeupsPerHourLabel;
 
+  /// No description provided for @monitoringModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project consumption by period'**
+  String get monitoringModeTitle;
+
+  /// No description provided for @monitoringModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate the charge used over a chosen period.'**
+  String get monitoringModeSubtitle;
+
+  /// No description provided for @monitoringSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitoring period'**
+  String get monitoringSectionTitle;
+
+  /// No description provided for @monitoringSectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how long the device operates under these conditions.'**
+  String get monitoringSectionDescription;
+
+  /// No description provided for @monitoringPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get monitoringPeriodLabel;
+
+  /// No description provided for @monitoringUnitHours.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get monitoringUnitHours;
+
+  /// No description provided for @monitoringUnitDays.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get monitoringUnitDays;
+
+  /// No description provided for @monitoringUnitWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'weeks'**
+  String get monitoringUnitWeeks;
+
   /// No description provided for @calculateButton.
   ///
   /// In en, this message translates to:
@@ -314,6 +362,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Active duty cycle'**
   String get dutyCycleLabel;
+
+  /// No description provided for @monitoredConsumptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption in period'**
+  String get monitoredConsumptionLabel;
+
+  /// No description provided for @monitoredCapacityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery capacity used'**
+  String get monitoredCapacityLabel;
+
+  /// No description provided for @consumptionValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} mAh'**
+  String consumptionValue(String value);
 
   /// No description provided for @averageCurrentValue.
   ///

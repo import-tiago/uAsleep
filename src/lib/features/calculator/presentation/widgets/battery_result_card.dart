@@ -83,6 +83,30 @@ class BatteryResultCard extends StatelessWidget {
                               ),
                             ),
                           ),
+                          if (value.monitoredConsumptionMilliampereHours
+                              case final consumption?)
+                            _Metric(
+                              label: l10n.monitoredConsumptionLabel,
+                              value: l10n.consumptionValue(
+                                const CalculationPresentationFormatter().number(
+                                  context,
+                                  consumption,
+                                  precision == 0 ? 2 : 4,
+                                ),
+                              ),
+                            ),
+                          if (value.monitoredCapacityPercentage
+                              case final percentage?)
+                            _Metric(
+                              label: l10n.monitoredCapacityLabel,
+                              value: l10n.percentageValue(
+                                const CalculationPresentationFormatter().number(
+                                  context,
+                                  percentage,
+                                  precision,
+                                ),
+                              ),
+                            ),
                           _Metric(
                             label: l10n.dutyCycleLabel,
                             value: l10n.percentageValue(

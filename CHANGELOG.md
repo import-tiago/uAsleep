@@ -7,6 +7,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Optional consumption projection for user-selected periods in hours, days,
+  or weeks, including charge usage in mAh and battery-capacity percentage.
+- Monitoring-period values in calculation history and exported reports.
+
 ## [2.1.0+7] - 2026-07-30
 
 ### Added

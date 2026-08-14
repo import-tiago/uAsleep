@@ -23,6 +23,14 @@
   "cycleSectionDescription": "Describe how long and how often the device wakes.",
   "activeDurationLabel": "Active duration",
   "wakeupsPerHourLabel": "Wake-ups per hour",
+  "monitoringModeTitle": "Project consumption by period",
+  "monitoringModeSubtitle": "Estimate the charge used over a chosen period.",
+  "monitoringSectionTitle": "Monitoring period",
+  "monitoringSectionDescription": "Choose how long the device operates under these conditions.",
+  "monitoringPeriodLabel": "Period",
+  "monitoringUnitHours": "h",
+  "monitoringUnitDays": "days",
+  "monitoringUnitWeeks": "weeks",
   "calculateButton": "Calculate",
   "resetButton": "Reset",
   "estimateNotice": "This is a theoretical estimate. Real battery life also depends on temperature, aging, self-discharge, regulator efficiency, and load transients.",
@@ -39,6 +47,16 @@
   "sleepModeDisabledValue": "Disabled",
   "averageCurrentLabel": "Average current",
   "dutyCycleLabel": "Active duty cycle",
+  "monitoredConsumptionLabel": "Consumption in period",
+  "monitoredCapacityLabel": "Battery capacity used",
+  "consumptionValue": "{value} mAh",
+  "@consumptionValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "averageCurrentValue": "{value} mA",
   "@averageCurrentValue": {
     "placeholders": {

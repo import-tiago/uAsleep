@@ -29,6 +29,7 @@ class BatteryLifeCalculator {
         profile.activeDuration,
         profile.wakeupsPerHour,
       ],
+      if (profile.monitoringEnabled) profile.monitoringPeriod,
     ]);
 
     if (profile.batteryCapacity <= 0) {
@@ -48,11 +49,18 @@ class BatteryLifeCalculator {
       profile.activeCurrent,
     );
 
+    if (profile.monitoringEnabled && profile.monitoringPeriod <= 0) {
+      throw const BatteryLifeException(
+        BatteryLifeErrorCode.nonPositiveMonitoringPeriod,
+      );
+    }
+
     if (!profile.sleepEnabled) {
       return _result(
         capacityMah: capacityMah,
         averageCurrentMa: activeCurrentMa,
         activeDutyCycle: 1,
+        profile: profile,
       );
     }
 
@@ -90,6 +98,7 @@ class BatteryLifeCalculator {
       capacityMah: capacityMah,
       averageCurrentMa: averageCurrentMa,
       activeDutyCycle: activeDurationHours / cycleDurationHours,
+      profile: profile,
     );
   }
 
@@ -103,6 +112,7 @@ class BatteryLifeCalculator {
     required double capacityMah,
     required double averageCurrentMa,
     required double activeDutyCycle,
+    required BatteryUsageProfile profile,
   }) {
     if (!averageCurrentMa.isFinite) {
       throw const BatteryLifeException(BatteryLifeErrorCode.nonFiniteValue);
@@ -115,10 +125,28 @@ class BatteryLifeCalculator {
     if (!hours.isFinite) {
       throw const BatteryLifeException(BatteryLifeErrorCode.nonFiniteValue);
     }
+    final double? monitoringPeriodHours = profile.monitoringEnabled
+        ? profile.monitoringPeriodUnit.toHours(profile.monitoringPeriod)
+        : null;
+    final double? monitoredConsumption = monitoringPeriodHours == null
+        ? null
+        : averageCurrentMa * monitoringPeriodHours;
+    final double? monitoredPercentage = monitoredConsumption == null
+        ? null
+        : monitoredConsumption / capacityMah * 100;
+    if (monitoringPeriodHours != null &&
+        (!monitoringPeriodHours.isFinite ||
+            !monitoredConsumption!.isFinite ||
+            !monitoredPercentage!.isFinite)) {
+      throw const BatteryLifeException(BatteryLifeErrorCode.nonFiniteValue);
+    }
     return BatteryLifeResult(
       hours: hours,
       averageCurrentMilliamperes: averageCurrentMa,
       activeDutyCycle: activeDutyCycle,
+      monitoredConsumptionMilliampereHours: monitoredConsumption,
+      monitoredCapacityPercentage: monitoredPercentage,
+      monitoringPeriodHours: monitoringPeriodHours,
     );
   }
 }

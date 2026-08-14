@@ -20,6 +20,14 @@
   "cycleSectionDescription": "Defina por quanto tempo e com que frequência o dispositivo desperta.",
   "activeDurationLabel": "Duração ativa",
   "wakeupsPerHourLabel": "Despertares por hora",
+  "monitoringModeTitle": "Projetar consumo por período",
+  "monitoringModeSubtitle": "Estime a carga consumida durante um período escolhido.",
+  "monitoringSectionTitle": "Período de monitoramento",
+  "monitoringSectionDescription": "Defina por quanto tempo o dispositivo opera nessas condições.",
+  "monitoringPeriodLabel": "Período",
+  "monitoringUnitHours": "h",
+  "monitoringUnitDays": "dias",
+  "monitoringUnitWeeks": "semanas",
   "calculateButton": "Calcular",
   "resetButton": "Limpar",
   "estimateNotice": "Esta é uma estimativa teórica. A autonomia real também depende de temperatura, envelhecimento, autodescarga, eficiência do regulador e transientes de carga.",
@@ -36,6 +44,16 @@
   "sleepModeDisabledValue": "Desativado",
   "averageCurrentLabel": "Corrente média",
   "dutyCycleLabel": "Ciclo ativo",
+  "monitoredConsumptionLabel": "Consumo no período",
+  "monitoredCapacityLabel": "Capacidade da bateria consumida",
+  "consumptionValue": "{value} mAh",
+  "@consumptionValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "averageCurrentValue": "{value} mA",
   "@averageCurrentValue": {
     "placeholders": {

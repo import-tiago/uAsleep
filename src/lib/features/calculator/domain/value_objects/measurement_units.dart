@@ -41,3 +41,17 @@ enum TimeUnit {
 
   double toHours(double value) => value * hourFactor;
 }
+
+/// Units intended for longer consumption-projection periods.
+enum MonitoringPeriodUnit {
+  hour('h', 1),
+  day('d', 24),
+  week('wk', 24 * 7);
+
+  const MonitoringPeriodUnit(this.symbol, this.hourFactor);
+
+  final String symbol;
+  final double hourFactor;
+
+  double toHours(double value) => value * hourFactor;
+}

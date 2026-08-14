@@ -4,6 +4,7 @@ enum BatteryLifeErrorCode {
   negativeCurrent,
   nonPositiveActiveDuration,
   nonPositiveWakeupFrequency,
+  nonPositiveMonitoringPeriod,
   activeDurationExceedsCycle,
   zeroAverageCurrent,
 }

@@ -32,12 +32,15 @@ class _CalculatorPageState extends State<CalculatorPage> {
   final TextEditingController _activeDurationController =
       TextEditingController();
   final TextEditingController _wakeupsController = TextEditingController();
+  final TextEditingController _monitoringPeriodController =
+      TextEditingController();
 
   final FocusNode _capacityFocus = FocusNode();
   final FocusNode _activeCurrentFocus = FocusNode();
   final FocusNode _sleepCurrentFocus = FocusNode();
   final FocusNode _activeDurationFocus = FocusNode();
   final FocusNode _wakeupsFocus = FocusNode();
+  final FocusNode _monitoringPeriodFocus = FocusNode();
 
   @override
   void dispose() {
@@ -46,11 +49,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
     _sleepCurrentController.dispose();
     _activeDurationController.dispose();
     _wakeupsController.dispose();
+    _monitoringPeriodController.dispose();
     _capacityFocus.dispose();
     _activeCurrentFocus.dispose();
     _sleepCurrentFocus.dispose();
     _activeDurationFocus.dispose();
     _wakeupsFocus.dispose();
+    _monitoringPeriodFocus.dispose();
     super.dispose();
   }
 
@@ -284,6 +289,67 @@ class _CalculatorPageState extends State<CalculatorPage> {
                                   )
                                 : const SizedBox.shrink(),
                           ),
+                          const SizedBox(height: AppSpacing.medium),
+                          _MonitoringModeCard(
+                            enabled: state.monitoringEnabled,
+                            onChanged: (bool value) => context
+                                .read<CalculatorCubit>()
+                                .monitoringEnabledChanged(value: value),
+                          ),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 180),
+                            alignment: Alignment.topCenter,
+                            child: state.monitoringEnabled
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: AppSpacing.medium,
+                                    ),
+                                    child: EngineeringSection(
+                                      icon: Icons.query_stats_rounded,
+                                      title: l10n.monitoringSectionTitle,
+                                      description:
+                                          l10n.monitoringSectionDescription,
+                                      children: <Widget>[
+                                        MeasurementField<MonitoringPeriodUnit>(
+                                          controller:
+                                              _monitoringPeriodController,
+                                          fieldKey: const Key(
+                                            'monitoringPeriodField',
+                                          ),
+                                          focusNode: _monitoringPeriodFocus,
+                                          label: l10n.monitoringPeriodLabel,
+                                          unit: state.monitoringPeriodUnit,
+                                          units: MonitoringPeriodUnit.values,
+                                          unitSymbol:
+                                              (MonitoringPeriodUnit unit) =>
+                                                  switch (unit) {
+                                                    MonitoringPeriodUnit.hour =>
+                                                      l10n.monitoringUnitHours,
+                                                    MonitoringPeriodUnit.day =>
+                                                      l10n.monitoringUnitDays,
+                                                    MonitoringPeriodUnit.week =>
+                                                      l10n.monitoringUnitWeeks,
+                                                  },
+                                          errorText: _errorText(
+                                            l10n,
+                                            state.errorFor(
+                                              CalculatorField.monitoringPeriod,
+                                            ),
+                                          ),
+                                          onChanged: context
+                                              .read<CalculatorCubit>()
+                                              .monitoringPeriodChanged,
+                                          onUnitChanged: context
+                                              .read<CalculatorCubit>()
+                                              .monitoringPeriodUnitChanged,
+                                          onSubmitted: (_) =>
+                                              _calculate(context),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
                           if (state.errorFor(CalculatorField.form)
                               case final CalculatorInputError
                                   formError) ...<Widget>[
@@ -397,6 +463,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
     _setControllerText(_sleepCurrentController, restored.sleepCurrent);
     _setControllerText(_activeDurationController, restored.activeDuration);
     _setControllerText(_wakeupsController, restored.wakeupsPerHour);
+    _setControllerText(_monitoringPeriodController, restored.monitoringPeriod);
   }
 
   void _reset(BuildContext context) {
@@ -405,6 +472,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
     _sleepCurrentController.clear();
     _activeDurationController.clear();
     _wakeupsController.clear();
+    _monitoringPeriodController.clear();
     context.read<CalculatorCubit>().reset();
     _capacityFocus.requestFocus();
   }
@@ -505,6 +573,32 @@ class _SleepModeCard extends StatelessWidget {
         secondary: const Icon(Icons.mode_night_outlined),
         title: Text(l10n.sleepModeTitle),
         subtitle: Text(l10n.sleepModeSubtitle),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.medium,
+          vertical: AppSpacing.small,
+        ),
+      ),
+    );
+  }
+}
+
+class _MonitoringModeCard extends StatelessWidget {
+  const _MonitoringModeCard({required this.enabled, required this.onChanged});
+
+  final bool enabled;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    return Card(
+      child: SwitchListTile(
+        key: const Key('monitoringModeSwitch'),
+        value: enabled,
+        onChanged: onChanged,
+        secondary: const Icon(Icons.monitor_heart_outlined),
+        title: Text(l10n.monitoringModeTitle),
+        subtitle: Text(l10n.monitoringModeSubtitle),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.medium,
           vertical: AppSpacing.small,

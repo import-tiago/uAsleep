@@ -8,21 +8,29 @@ import 'package:uasleep/features/calculator/domain/value_objects/measurement_uni
 import '../../../helpers/fakes.dart';
 
 void main() {
-  CalculationHistoryEntry entry(int id) {
+  CalculationHistoryEntry entry(int id, {bool projected = false}) {
     return CalculationHistoryEntry(
       id: '$id',
       createdAt: DateTime.utc(2026, 7, 30, 10, id),
-      profile: const BatteryUsageProfile(
+      profile: BatteryUsageProfile(
         batteryCapacity: 1000,
         batteryCapacityUnit: BatteryCapacityUnit.milliampereHour,
         activeCurrent: 100,
         activeCurrentUnit: CurrentUnit.milliampere,
         sleepEnabled: false,
+        monitoringEnabled: projected,
+        monitoringPeriod: 1,
+        monitoringPeriodUnit: projected
+            ? MonitoringPeriodUnit.week
+            : MonitoringPeriodUnit.hour,
       ),
-      result: const BatteryLifeResult(
+      result: BatteryLifeResult(
         hours: 10,
         averageCurrentMilliamperes: 100,
         activeDutyCycle: 1,
+        monitoredConsumptionMilliampereHours: projected ? 16800 : null,
+        monitoredCapacityPercentage: projected ? 1680 : null,
+        monitoringPeriodHours: projected ? 168 : null,
       ),
     );
   }
@@ -35,6 +43,17 @@ void main() {
     await repository.add(entry(1));
 
     expect(await repository.load(), <CalculationHistoryEntry>[entry(1)]);
+  });
+
+  test('persists and restores monitoring projections', () async {
+    final MemorySettingsDataSource source = MemorySettingsDataSource();
+    final LocalCalculationHistoryRepository repository =
+        LocalCalculationHistoryRepository(source);
+    final CalculationHistoryEntry projected = entry(1, projected: true);
+
+    await repository.add(projected);
+
+    expect(await repository.load(), <CalculationHistoryEntry>[projected]);
   });
 
   test('keeps only the configured number of newest entries', () async {

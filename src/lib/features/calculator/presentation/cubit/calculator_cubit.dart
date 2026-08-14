@@ -74,6 +74,18 @@ class CalculatorCubit extends Cubit<CalculatorState> {
     emit(_editing(state.copyWith(wakeupsPerHour: value)));
   }
 
+  void monitoringEnabledChanged({required bool value}) {
+    emit(_editing(state.copyWith(monitoringEnabled: value)));
+  }
+
+  void monitoringPeriodChanged(String value) {
+    emit(_editing(state.copyWith(monitoringPeriod: value)));
+  }
+
+  void monitoringPeriodUnitChanged(MonitoringPeriodUnit value) {
+    emit(_editing(state.copyWith(monitoringPeriodUnit: value)));
+  }
+
   void loadProfile(BatteryUsageProfile profile) {
     emit(
       CalculatorState(
@@ -88,6 +100,9 @@ class CalculatorCubit extends Cubit<CalculatorState> {
         activeDuration: _inputValue(profile.activeDuration),
         activeDurationUnit: profile.activeDurationUnit,
         wakeupsPerHour: _inputValue(profile.wakeupsPerHour),
+        monitoringEnabled: profile.monitoringEnabled,
+        monitoringPeriod: _inputValue(profile.monitoringPeriod),
+        monitoringPeriodUnit: profile.monitoringPeriodUnit,
       ),
     );
   }
@@ -127,6 +142,13 @@ class CalculatorCubit extends Cubit<CalculatorState> {
             issues,
           )
         : 1;
+    final double? monitoringPeriod = state.monitoringEnabled
+        ? _requiredNumber(
+            state.monitoringPeriod,
+            CalculatorField.monitoringPeriod,
+            issues,
+          )
+        : 1;
 
     if (issues.isNotEmpty) {
       emit(
@@ -143,7 +165,8 @@ class CalculatorCubit extends Cubit<CalculatorState> {
         activeCurrent == null ||
         sleepCurrent == null ||
         activeDuration == null ||
-        wakeups == null) {
+        wakeups == null ||
+        monitoringPeriod == null) {
       return;
     }
 
@@ -158,6 +181,9 @@ class CalculatorCubit extends Cubit<CalculatorState> {
       activeDuration: activeDuration,
       activeDurationUnit: state.activeDurationUnit,
       wakeupsPerHour: wakeups,
+      monitoringEnabled: state.monitoringEnabled,
+      monitoringPeriod: monitoringPeriod,
+      monitoringPeriodUnit: state.monitoringPeriodUnit,
     );
 
     try {
@@ -273,6 +299,10 @@ class CalculatorCubit extends Cubit<CalculatorState> {
       ),
       BatteryLifeErrorCode.nonPositiveWakeupFrequency => const CalculatorIssue(
         field: CalculatorField.wakeupsPerHour,
+        error: CalculatorInputError.mustBePositive,
+      ),
+      BatteryLifeErrorCode.nonPositiveMonitoringPeriod => const CalculatorIssue(
+        field: CalculatorField.monitoringPeriod,
         error: CalculatorInputError.mustBePositive,
       ),
       BatteryLifeErrorCode.activeDurationExceedsCycle => const CalculatorIssue(

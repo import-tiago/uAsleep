@@ -15,6 +15,9 @@ void main() {
     double activeDuration = 1,
     TimeUnit activeDurationUnit = TimeUnit.second,
     double wakeupsPerHour = 60,
+    bool monitoringEnabled = false,
+    double monitoringPeriod = 1,
+    MonitoringPeriodUnit monitoringPeriodUnit = MonitoringPeriodUnit.hour,
   }) {
     return BatteryUsageProfile(
       batteryCapacity: capacity,
@@ -27,6 +30,9 @@ void main() {
       activeDuration: activeDuration,
       activeDurationUnit: activeDurationUnit,
       wakeupsPerHour: wakeupsPerHour,
+      monitoringEnabled: monitoringEnabled,
+      monitoringPeriod: monitoringPeriod,
+      monitoringPeriodUnit: monitoringPeriodUnit,
     );
   }
 
@@ -49,6 +55,45 @@ void main() {
     expect(result.hours, 10);
     expect(result.averageCurrentMilliamperes, 100);
     expect(result.activeDutyCycle, 1);
+  });
+
+  test('projects consumption over eight hours', () {
+    final result = calculator.calculate(
+      profile(
+        sleepEnabled: false,
+        activeCurrent: 100,
+        monitoringEnabled: true,
+        monitoringPeriod: 8,
+      ),
+    );
+
+    expect(result.monitoringPeriodHours, 8);
+    expect(result.monitoredConsumptionMilliampereHours, 800);
+    expect(result.monitoredCapacityPercentage, 80);
+  });
+
+  test('normalizes a one-week monitoring period to hours', () {
+    final result = calculator.calculate(
+      profile(
+        sleepEnabled: false,
+        activeCurrent: 10,
+        monitoringEnabled: true,
+        monitoringPeriodUnit: MonitoringPeriodUnit.week,
+      ),
+    );
+
+    expect(result.monitoringPeriodHours, 168);
+    expect(result.monitoredConsumptionMilliampereHours, 1680);
+    expect(result.monitoredCapacityPercentage, 168);
+  });
+
+  test('rejects a non-positive monitoring period', () {
+    expect(
+      () => calculator.calculate(
+        profile(monitoringEnabled: true, monitoringPeriod: 0),
+      ),
+      throwsCode(BatteryLifeErrorCode.nonPositiveMonitoringPeriod),
+    );
   });
 
   test('preserves the legacy one-hour weighted-duty-cycle behavior', () {

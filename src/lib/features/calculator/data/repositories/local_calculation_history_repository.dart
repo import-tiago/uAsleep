@@ -121,12 +121,28 @@ class LocalCalculationHistoryRepository
           profile['activeDurationUnit'] as String,
         ),
         wakeupsPerHour: (profile['wakeupsPerHour'] as num).toDouble(),
+        monitoringEnabled: profile['monitoringEnabled'] as bool? ?? false,
+        monitoringPeriod:
+            (profile['monitoringPeriod'] as num?)?.toDouble() ?? 1,
+        monitoringPeriodUnit: profile['monitoringPeriodUnit'] == null
+            ? MonitoringPeriodUnit.hour
+            : _enumByName(
+                MonitoringPeriodUnit.values,
+                profile['monitoringPeriodUnit'] as String,
+              ),
       ),
       result: BatteryLifeResult(
         hours: (result['hours'] as num).toDouble(),
         averageCurrentMilliamperes:
             (result['averageCurrentMilliamperes'] as num).toDouble(),
         activeDutyCycle: (result['activeDutyCycle'] as num).toDouble(),
+        monitoredConsumptionMilliampereHours:
+            (result['monitoredConsumptionMilliampereHours'] as num?)
+                ?.toDouble(),
+        monitoredCapacityPercentage:
+            (result['monitoredCapacityPercentage'] as num?)?.toDouble(),
+        monitoringPeriodHours: (result['monitoringPeriodHours'] as num?)
+            ?.toDouble(),
       ),
     );
   }
@@ -135,11 +151,10 @@ class LocalCalculationHistoryRepository
     return values.firstWhere((T value) => value.name == name);
   }
 
-  Map<String, Object> _entryToJson(CalculationHistoryEntry entry) {
-    
+  Map<String, Object?> _entryToJson(CalculationHistoryEntry entry) {
     final BatteryUsageProfile profile = entry.profile;
     final BatteryLifeResult result = entry.result;
-    return <String, Object>{
+    return <String, Object?>{
       'id': entry.id,
       'createdAt': entry.createdAt.toIso8601String(),
       'profile': <String, Object>{
@@ -153,11 +168,18 @@ class LocalCalculationHistoryRepository
         'activeDuration': profile.activeDuration,
         'activeDurationUnit': profile.activeDurationUnit.name,
         'wakeupsPerHour': profile.wakeupsPerHour,
+        'monitoringEnabled': profile.monitoringEnabled,
+        'monitoringPeriod': profile.monitoringPeriod,
+        'monitoringPeriodUnit': profile.monitoringPeriodUnit.name,
       },
-      'result': <String, Object>{
+      'result': <String, Object?>{
         'hours': result.hours,
         'averageCurrentMilliamperes': result.averageCurrentMilliamperes,
         'activeDutyCycle': result.activeDutyCycle,
+        'monitoredConsumptionMilliampereHours':
+            result.monitoredConsumptionMilliampereHours,
+        'monitoredCapacityPercentage': result.monitoredCapacityPercentage,
+        'monitoringPeriodHours': result.monitoringPeriodHours,
       },
     };
   }

@@ -71,6 +71,7 @@ void main() {
           activeDuration: '250',
           activeDurationUnit: TimeUnit.millisecond,
           wakeupsPerHour: '12',
+          monitoringPeriod: '1',
         ),
       ],
     );
@@ -139,6 +140,35 @@ void main() {
           'hours',
           10,
         ),
+      ],
+    );
+
+    blocTest<CalculatorCubit, CalculatorState>(
+      'calculates consumption for a selected monitoring period',
+      build: CalculatorCubit.new,
+      act: (CalculatorCubit cubit) {
+        cubit
+          ..batteryCapacityChanged('1000')
+          ..activeCurrentChanged('100')
+          ..monitoringEnabledChanged(value: true)
+          ..monitoringPeriodChanged('8')
+          ..calculate();
+      },
+      skip: 4,
+      expect: () => <Matcher>[
+        isA<CalculatorState>()
+            .having(
+              (CalculatorState state) =>
+                  state.result?.monitoredConsumptionMilliampereHours,
+              'consumption',
+              800,
+            )
+            .having(
+              (CalculatorState state) =>
+                  state.result?.monitoredCapacityPercentage,
+              'capacity percentage',
+              80,
+            ),
       ],
     );
 

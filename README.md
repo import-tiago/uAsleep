@@ -26,6 +26,7 @@ limitations explicit.
 - Active and sleep current in `nA`, `µA`, `mA`, or `A`.
 - Active duration in `µs`, `ms`, `s`, `min`, or `h`.
 - Optional sleep-mode duty-cycle calculation.
+- Optional consumption projection over a period in hours, days, or weeks.
 - Average current, active duty cycle, and human-readable battery life.
 - On-device history for the 50 most recent successful calculations, with
   one-tap parameter reuse.
@@ -51,6 +52,7 @@ averageCurrent =
   cycleDuration
 
 batteryLifeHours = batteryCapacityMah / averageCurrentMa
+projectedConsumptionMah = averageCurrentMa * monitoringPeriodHours
 ```
 
 Without sleep mode, active current is treated as continuous.

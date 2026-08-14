@@ -75,6 +75,32 @@ class AppLocalizationsPt extends AppLocalizations {
   String get wakeupsPerHourLabel => 'Despertares por hora';
 
   @override
+  String get monitoringModeTitle => 'Projetar consumo por período';
+
+  @override
+  String get monitoringModeSubtitle =>
+      'Estime a carga consumida durante um período escolhido.';
+
+  @override
+  String get monitoringSectionTitle => 'Período de monitoramento';
+
+  @override
+  String get monitoringSectionDescription =>
+      'Defina por quanto tempo o dispositivo opera nessas condições.';
+
+  @override
+  String get monitoringPeriodLabel => 'Período';
+
+  @override
+  String get monitoringUnitHours => 'h';
+
+  @override
+  String get monitoringUnitDays => 'dias';
+
+  @override
+  String get monitoringUnitWeeks => 'semanas';
+
+  @override
   String get calculateButton => 'Calcular';
 
   @override
@@ -123,6 +149,17 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get dutyCycleLabel => 'Ciclo ativo';
+
+  @override
+  String get monitoredConsumptionLabel => 'Consumo no período';
+
+  @override
+  String get monitoredCapacityLabel => 'Capacidade da bateria consumida';
+
+  @override
+  String consumptionValue(String value) {
+    return '$value mAh';
+  }
 
   @override
   String averageCurrentValue(String value) {
@@ -411,6 +448,32 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get wakeupsPerHourLabel => 'Despertares por hora';
 
   @override
+  String get monitoringModeTitle => 'Projetar consumo por período';
+
+  @override
+  String get monitoringModeSubtitle =>
+      'Estime a carga consumida durante um período escolhido.';
+
+  @override
+  String get monitoringSectionTitle => 'Período de monitoramento';
+
+  @override
+  String get monitoringSectionDescription =>
+      'Defina por quanto tempo o dispositivo opera nessas condições.';
+
+  @override
+  String get monitoringPeriodLabel => 'Período';
+
+  @override
+  String get monitoringUnitHours => 'h';
+
+  @override
+  String get monitoringUnitDays => 'dias';
+
+  @override
+  String get monitoringUnitWeeks => 'semanas';
+
+  @override
   String get calculateButton => 'Calcular';
 
   @override
@@ -459,6 +522,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get dutyCycleLabel => 'Ciclo ativo';
+
+  @override
+  String get monitoredConsumptionLabel => 'Consumo no período';
+
+  @override
+  String get monitoredCapacityLabel => 'Capacidade da bateria consumida';
+
+  @override
+  String consumptionValue(String value) {
+    return '$value mAh';
+  }
 
   @override
   String averageCurrentValue(String value) {
