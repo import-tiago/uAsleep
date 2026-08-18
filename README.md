@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/import-tiago/uAsleep/actions/workflows/ci.yml"><img src="https://github.com/import-tiago/uAsleep/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  
   <img src="https://img.shields.io/badge/Flutter-3.44.8-02569B?logo=flutter" alt="Flutter 3.44.8">
   <img src="https://img.shields.io/badge/Dart-3.12.2-0175C2?logo=dart" alt="Dart 3.12.2">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY--SA%204.0-0B2A4A" alt="CC BY-SA 4.0 license"></a>
